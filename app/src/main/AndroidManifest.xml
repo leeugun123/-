@@ -13,19 +13,25 @@
         android:theme="@style/Theme.RiotAPI"
         tools:targetApi="31">
         <activity
-            android:name=".SplashActivity"
+            android:name=".View.NickNameActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.RiotAPI">
+            android:name=".NicNameActivity"
+            android:exported="false" />
+        <activity
+            android:name=".View.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".View.MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.RiotAPI" />
     </application>
 
 </manifest>
