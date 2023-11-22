@@ -5,10 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.room.Room
 import com.example.riotapi.Data.UserInfo
-import com.example.riotapi.LocalDB.AppDatabase
-import com.example.riotapi.LocalDB.DataDao
 import com.example.riotapi.Retrofit.RiotApiService
 import com.example.riotapi.View.NickNameActivity
 import retrofit2.Call
@@ -29,11 +26,9 @@ class NickNameViewModel() : ViewModel() {
     private var riotApiService : RiotApiService = retrofit.create(RiotApiService::class.java)
 
 
+    fun fetchUserInfo(userNickName : String){
 
-
-    fun fetchUserInfo(applicationContext : Context){
-
-        riotApiService.getUserData("탈서스").enqueue(object : retrofit2.Callback<UserInfo> {
+        riotApiService.getUserData(userNickName).enqueue(object : retrofit2.Callback<UserInfo> {
 
             override fun onResponse(call: Call<UserInfo>, response : Response<UserInfo>) {
                 if (response.isSuccessful) {
@@ -41,16 +36,6 @@ class NickNameViewModel() : ViewModel() {
 
                     dataList?.let {
                         _userInfoData.value = it
-
-                        val db = Room.databaseBuilder(
-                            applicationContext, AppDatabase::class.java, "database"
-                        ).allowMainThreadQueries().build()
-
-
-                        db.dataDao().insertData(it)
-                        var s = db.dataDao().getAllData().name
-
-                        Log.e("Tag",s)
 
 
                     }
@@ -69,10 +54,7 @@ class NickNameViewModel() : ViewModel() {
 
     }
 
-    private fun saveDataToRoom(userInfo : UserInfo) {
 
-
-    }
 
 
 }

@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-@Entity(tableName = "userInfo_table")
+
 data class UserInfo(
 
     @SerializedName("id")
@@ -28,7 +28,4 @@ data class UserInfo(
     @SerializedName("summonerLevel")
     val summonerLevel : Long
 
-){
-    @PrimaryKey(autoGenerate = true)
-    var pId : Int = 0
-}
+)
