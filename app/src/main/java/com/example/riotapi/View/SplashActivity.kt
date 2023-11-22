@@ -27,8 +27,8 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkNickName(): Boolean {
-        return true
-    }
+        return false
+    }//local DB를 조회하는 메소드 작성 + NULL 값 확인
 
     private fun moveNextActivity(){
 
