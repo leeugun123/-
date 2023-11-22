@@ -7,8 +7,6 @@ import com.google.gson.annotations.SerializedName
 @Entity(tableName = "userInfo_table")
 data class UserInfo(
 
-    @PrimaryKey(autoGenerate = true)
-
     @SerializedName("id")
     val id : String,
 
@@ -30,4 +28,7 @@ data class UserInfo(
     @SerializedName("summonerLevel")
     val summonerLevel : Long
 
-)
+){
+    @PrimaryKey(autoGenerate = true)
+    var pId : Int = 0
+}

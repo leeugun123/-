@@ -3,7 +3,10 @@ import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt") // 추가
 }
+
+
 
 android {
     namespace = "com.example.riotapi"
@@ -36,7 +39,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = JavaVersion.VERSION_17.toString()
     }
     buildFeatures {
         compose = true
@@ -52,10 +55,10 @@ android {
 
     }
 
-
-
-
 }
+
+
+
 
 dependencies {
 
@@ -86,5 +89,8 @@ dependencies {
     configurations {
         implementation.get().exclude(mapOf("group" to "org.jetbrains", "module" to "annotations"))
     }
+
+
+
 
 }

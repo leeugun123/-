@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.room.Room
+import com.example.riotapi.LocalDB.AppDatabase
 import com.example.riotapi.ViewModel.NickNameViewModel
 import com.example.riotapi.databinding.ActivityNickNameBinding
 
@@ -26,16 +28,17 @@ class NickNameActivity : AppCompatActivity() {
 
             if(mBinding.nicknameEditText.text.isNotBlank()){
                 //api 통신 호출 및 Room 데이터 저장
-                nickNameViewModel.fetchUserInfo()
+                nickNameViewModel.fetchUserInfo(applicationContext)
             }else
                 Toast.makeText(this,"닉네임이 입력되지 않았습니다.",Toast.LENGTH_SHORT).show()
 
         }
 
 
+
+
         nickNameViewModel.userInfoData.observe(this, Observer { userData ->
-            Log.e("TAG","액티비티" + userData.name)
-            Log.e("TAG","ㅈㄷㄹㅈㄷㄹ")
+
         })
 
 
