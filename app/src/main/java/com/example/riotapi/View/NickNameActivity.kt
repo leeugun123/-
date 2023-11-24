@@ -37,6 +37,8 @@ class NickNameActivity : AppCompatActivity() {
 
         nickNameViewModel.userInfoData.observe(this, Observer { userData ->
 
+            Log.e("TAG", userData.name + " " + userData.id)
+
         })
 
 

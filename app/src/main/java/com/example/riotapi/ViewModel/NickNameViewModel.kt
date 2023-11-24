@@ -2,6 +2,7 @@ package com.example.riotapi.ViewModel
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -31,17 +32,20 @@ class NickNameViewModel() : ViewModel() {
         riotApiService.getUserData(userNickName).enqueue(object : retrofit2.Callback<UserInfo> {
 
             override fun onResponse(call: Call<UserInfo>, response : Response<UserInfo>) {
+
                 if (response.isSuccessful) {
                     val dataList = response.body()
 
                     dataList?.let {
                         _userInfoData.value = it
-
-
                     }
                 }
-                else
+                else{
                     Log.e("API Call", "Error: ${response.code()}")
+                }
+
+
+
             }
 
             override fun onFailure(call: Call<UserInfo>, t: Throwable) {

@@ -6,7 +6,8 @@ import retrofit2.http.Path
 
 interface RiotApiService {
 
-    @GET("lol/summoner/v4/summoners/by-name/{summoner_name}?api_key=RGAPI-c656c2bf-93b1-4592-857e-884c0ab90ffc")
+    @GET("lol/summoner/v4/summoners/by-name/{summoner_name}?api_key=RGAPI-be79bae7-6ddd-41ef-9e8e-97f789649118")
     fun getUserData(@Path(value = "summoner_name", encoded = true) summonerName : String) : retrofit2.Call<UserInfo>
+
 
 }
