@@ -27,11 +27,12 @@ class NickNameActivity : AppCompatActivity() {
             if(mBinding.nicknameEditText.text.isNotBlank()){
                 //api 통신 호출 및 Room 데이터 저장
                 nickNameViewModel.fetchUserInfo(mBinding.nicknameEditText.text.toString())
+                nickNameViewModel.fetchSkillInfo("0JdP5fOz5UyxZpTLWFm4j9kyDh7MKBYExTOP6JqqdbTDERA")
+
             }else
                 Toast.makeText(this,"닉네임이 입력되지 않았습니다.",Toast.LENGTH_SHORT).show()
 
         }
-
 
 
 

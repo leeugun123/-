@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.riotapi.Data.ChampSkillInfo
 import com.example.riotapi.Data.UserInfo
 import com.example.riotapi.Retrofit.RiotApiService
 import com.example.riotapi.View.NickNameActivity
@@ -52,8 +53,38 @@ class NickNameViewModel() : ViewModel() {
                 Log.e("API Call", "Failed: ${t.message}")
             }
 
+        })
+
+    }
+
+    fun fetchSkillInfo(summonerId : String){
+
+        riotApiService.getChampionSkill(summonerId).enqueue(object : retrofit2.Callback<List<ChampSkillInfo>> {
+
+            override fun onResponse(call: Call<List<ChampSkillInfo>>, response : Response<List<ChampSkillInfo>>) {
+
+                if (response.isSuccessful) {
+
+                    val dataList = response.body()
+
+                    dataList?.let {
+                        Log.e("TAG", it[0].championId.toString())
+                    }
+                }
+                else{
+                    Log.e("API Call", "Error: ${response.code()}")
+                }
+
+
+
+            }
+
+            override fun onFailure(call: Call<List<ChampSkillInfo>>, t: Throwable) {
+                Log.e("API Call", "Failed: ${t.message}")
+            }
 
         })
+
 
 
     }
