@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.RiotAPI" parent="Theme.MaterialComponents.DayNight.DarkActionBar" />
+    <style name="Theme.RiotAPI" parent="Theme.AppCompat.Light.DarkActionBar" >
+
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">@color/teal_200</item>
+        <!-- Customize your theme here. -->
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+    </style>
+    
 </resources>

@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.riotapi.Adapter.ChampSkillAdapter
 import com.example.riotapi.ViewModel.NickNameViewModel
 import com.example.riotapi.databinding.ActivityNickNameBinding
 
@@ -21,26 +23,22 @@ class NickNameActivity : AppCompatActivity() {
 
         nickNameViewModel = ViewModelProvider(this)[NickNameViewModel::class.java]
 
-
         mBinding.inputBut.setOnClickListener {
 
             if(mBinding.nicknameEditText.text.isNotBlank()){
                 //api 통신 호출 및 Room 데이터 저장
                 nickNameViewModel.fetchUserInfo(mBinding.nicknameEditText.text.toString())
-                nickNameViewModel.fetchSkillInfo("0JdP5fOz5UyxZpTLWFm4j9kyDh7MKBYExTOP6JqqdbTDERA")
-
             }else
                 Toast.makeText(this,"닉네임이 입력되지 않았습니다.",Toast.LENGTH_SHORT).show()
 
         }
 
+        nickNameViewModel.champSkillInfoList.observe(this) { skillInfo ->
 
+            mBinding.champSkillRecycler.layoutManager = LinearLayoutManager(this)
+            mBinding.champSkillRecycler.adapter = ChampSkillAdapter(skillInfo)
 
-        nickNameViewModel.userInfoData.observe(this, Observer { userData ->
-
-            Log.e("TAG", userData.name + " " + userData.id)
-
-        })
+        }
 
 
     }
