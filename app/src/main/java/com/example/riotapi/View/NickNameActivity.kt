@@ -3,46 +3,57 @@ package com.example.riotapi.View
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.riotapi.Adapter.ChampSkillAdapter
 import com.example.riotapi.Data.JsonData.ChampHashMap
 import com.example.riotapi.Data.JsonData.ChampionMap
+import com.example.riotapi.Data.UserNickName
+import com.example.riotapi.Fragment.ChampExFragment
+import com.example.riotapi.Fragment.FightRecordFragment
+import com.example.riotapi.R
 import com.example.riotapi.ViewModel.NickNameViewModel
 import com.example.riotapi.databinding.ActivityNickNameBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 
-class NickNameActivity : AppCompatActivity() {
+class NickNameActivity : AppCompatActivity() , BottomNavigationView.OnNavigationItemSelectedListener{
 
     private lateinit var mBinding : ActivityNickNameBinding
     private lateinit var nickNameViewModel : NickNameViewModel
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mBinding = ActivityNickNameBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
 
-        initSetting()
+        activityInit()
 
         mBinding.inputBut.setOnClickListener {
 
-            if(mBinding.nicknameEditText.text.isNotBlank()){
+            UserNickName.userNickName = mBinding.nicknameEditText.text.toString()
+
+            if(UserNickName.userNickName.isNotBlank()){
                 //api 통신 호출 및 Room 데이터 저장
-                nickNameViewModel.fetchUserInfo(mBinding.nicknameEditText.text.toString())
+                nickNameViewModel.fetchUserInfo(UserNickName.userNickName)
             }else
                 Toast.makeText(this,"닉네임이 입력되지 않았습니다.",Toast.LENGTH_SHORT).show()
 
         }
 
-        nickNameViewModel.champSkillInfoList.observe(this) { skillInfo ->
 
-            mBinding.champSkillRecycler.adapter = ChampSkillAdapter(skillInfo)
+    }
 
-        }
-
+    private fun activityInit() {
         jsonParsing()
-
-
+        nickNameViewModel = ViewModelProvider(this)[NickNameViewModel::class.java]
+        supportFragmentManager.beginTransaction().add(R.id.fragment_container, ChampExFragment()).commit()
+        mBinding.navView.setOnNavigationItemSelectedListener(this)
     }
 
     private fun jsonParsing() {
@@ -55,12 +66,30 @@ class NickNameActivity : AppCompatActivity() {
             ChampHashMap.champHashInfo.put(championData.key , championId)
         }
 
-
     }
 
-    private fun initSetting() {
-        nickNameViewModel = ViewModelProvider(this)[NickNameViewModel::class.java]
-        mBinding.champSkillRecycler.layoutManager = LinearLayoutManager(this)
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+
+            R.id.navigation_championExperience -> {
+
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ChampExFragment())
+                    .commitAllowingStateLoss()
+
+                return true;
+            }
+            R.id.navigation_fightRecord -> {
+
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, FightRecordFragment()).commitAllowingStateLoss()
+
+                return true;
+            }
+
+        }
+
+        return false
+
     }
 
 

@@ -16,27 +16,17 @@ class SplashActivity : AppCompatActivity() {
         mBinding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
 
-        nextIntent = if(checkNickName()){
-            Intent(this, MainActivity::class.java)
-        }else
-            Intent(this, NickNameActivity::class.java)
-
+        nextIntent = Intent(this, NickNameActivity::class.java)
 
         moveNextActivity()
 
     }
 
-    private fun checkNickName(): Boolean {
-        return false
-    }//local DB를 조회하는 메소드 작성 + NULL 값 확인
 
     private fun moveNextActivity(){
 
         Handler().postDelayed({
-            // 메인 화면으로 이동하는 Intent 설정
             startActivity(nextIntent)
-
-            // 현재 액티비티 종료
             finish()
         }, SPLASH_TIME_OUT)
 

@@ -10,32 +10,47 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/nickname_editText"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="4"
-            android:hint="닉네임 입력" />
+            android:paddingLeft="5dp"
+            android:hint="소환사 이름 입력" />
 
         <Button
             android:id="@+id/input_but"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="#2196F3"
+            android:background="@drawable/rounded_corners_background"
             android:text="입력"
             android:textColor="@color/white"/>
 
     </LinearLayout>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/champ_skill_recycler"
+    <LinearLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_weight="12"
+        android:orientation="vertical"
+         />
+
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_view"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="bottom"
+        app:menu="@menu/bottom_nav_menu" />
 
 
 
