@@ -4,7 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.riotapi.Data.ChampSkillInfo
+import com.example.riotapi.Data.JsonData.ChampHashMap.champHashInfo
+import com.example.riotapi.Data.RetrofitData.ChampSkillInfo
 import com.example.riotapi.databinding.ChampSkillInfoBinding
 
 class ChampSkillAdapter(private val champSkillList : List<ChampSkillInfo>) : RecyclerView.Adapter<ChampSkillAdapter.ViewHolder>() {
@@ -32,7 +33,7 @@ class ChampSkillAdapter(private val champSkillList : List<ChampSkillInfo>) : Rec
 
         val skill_List = champSkillList[position]
 
-        holder.binding.championId.text = skill_List.championId.toString()
+        holder.binding.championId.text = champHashInfo[skill_List.championId.toString()]
         holder.binding.championLevel.text = skill_List.championLevel.toString()
         holder.binding.championPoint.text  = skill_List.championPoints.toString()
 

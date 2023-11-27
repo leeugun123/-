@@ -1,4 +1,4 @@
-package com.example.riotapi.Data
+package com.example.riotapi.Data.RetrofitData
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

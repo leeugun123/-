@@ -2,15 +2,15 @@ package com.example.riotapi.View
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.riotapi.Adapter.ChampSkillAdapter
+import com.example.riotapi.Data.JsonData.ChampHashMap
+import com.example.riotapi.Data.JsonData.ChampionMap
 import com.example.riotapi.ViewModel.NickNameViewModel
 import com.example.riotapi.databinding.ActivityNickNameBinding
+import com.google.gson.Gson
 
 class NickNameActivity : AppCompatActivity() {
 
@@ -21,7 +21,7 @@ class NickNameActivity : AppCompatActivity() {
         mBinding = ActivityNickNameBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
 
-        nickNameViewModel = ViewModelProvider(this)[NickNameViewModel::class.java]
+        initSetting()
 
         mBinding.inputBut.setOnClickListener {
 
@@ -35,12 +35,32 @@ class NickNameActivity : AppCompatActivity() {
 
         nickNameViewModel.champSkillInfoList.observe(this) { skillInfo ->
 
-            mBinding.champSkillRecycler.layoutManager = LinearLayoutManager(this)
             mBinding.champSkillRecycler.adapter = ChampSkillAdapter(skillInfo)
 
         }
 
+        jsonParsing()
 
+
+    }
+
+    private fun jsonParsing() {
+
+        val jsonString = assets.open("champDataSet.json").reader().readText()
+
+        val championMap = Gson().fromJson(jsonString, ChampionMap::class.java)
+
+        championMap.data?.map {(championId, championData) ->
+            //Log.e("TAG", championData.key + " "  + championId)
+            ChampHashMap.champHashInfo.put(championData.key , championId)
+        }
+
+
+    }
+
+    private fun initSetting() {
+        nickNameViewModel = ViewModelProvider(this)[NickNameViewModel::class.java]
+        mBinding.champSkillRecycler.layoutManager = LinearLayoutManager(this)
     }
 
 

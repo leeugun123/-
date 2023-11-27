@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.riotapi.Data.ChampSkillInfo
-import com.example.riotapi.Data.UserInfo
+import com.example.riotapi.Data.RetrofitData.ChampSkillInfo
+import com.example.riotapi.Data.RetrofitData.UserInfo
 import com.example.riotapi.Retrofit.RiotApiService
 import retrofit2.Call
 import retrofit2.Response
@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class NickNameViewModel() : ViewModel() {
 
     private val _champSkillInfoList = MutableLiveData<List<ChampSkillInfo>>()
-    val champSkillInfoList  : LiveData<List<ChampSkillInfo>> get() = _champSkillInfoList
+    val champSkillInfoList : LiveData<List<ChampSkillInfo>> get() = _champSkillInfoList
 
     private var retrofit : Retrofit = Retrofit.Builder()
         .baseUrl("https://kr.api.riotgames.com/")
@@ -37,6 +37,7 @@ class NickNameViewModel() : ViewModel() {
                     dataList?.let {
                         fetchSkillInfo(it.id)
                     }
+
                 }
                 else{
                     Log.e("API Call", "Error: ${response.code()}")

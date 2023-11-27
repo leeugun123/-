@@ -1,4 +1,4 @@
-package com.example.riotapi.Data
+package com.example.riotapi.Data.RetrofitData
 
 import com.google.gson.annotations.SerializedName
 
