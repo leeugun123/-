@@ -52,7 +52,6 @@ class NickNameActivity : AppCompatActivity() {
         val championMap = Gson().fromJson(jsonString, ChampionMap::class.java)
 
         championMap.data?.map {(championId, championData) ->
-           // Log.e("TAG", championData.key + " " + championData.image.full)
             ChampHashMap.champHashInfo.put(championData.key , championId)
         }
 
