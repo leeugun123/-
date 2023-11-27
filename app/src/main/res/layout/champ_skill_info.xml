@@ -29,6 +29,12 @@
         android:textSize="20sp"
         android:textColor="@color/black"/>
 
+    <ImageView
+        android:id="@+id/champ_img"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        />
+
 
 
 </LinearLayout>
