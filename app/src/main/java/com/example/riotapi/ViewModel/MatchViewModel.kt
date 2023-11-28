@@ -2,6 +2,7 @@ package com.example.riotapi.ViewModel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.example.riotapi.Data.RetrofitData.MatchDto
 import com.example.riotapi.Retrofit.RiotApiService
 import retrofit2.Call
 import retrofit2.Response
@@ -28,10 +29,10 @@ class MatchViewModel : ViewModel() {
 
                     val matchIdLists = response.body()
 
-                    matchIdLists?.let {
+                    matchIdLists?.let {matchIdList ->
 
-                        for (matchId in it){
-                            Log.e("API Call", matchId)
+                        for(matchId in matchIdList){
+                           fetchMatchInfo(matchId)
                         }
 
                     }
@@ -46,6 +47,36 @@ class MatchViewModel : ViewModel() {
                 Log.e("API Call", "Failed: ${t.message}")
             }
 
+
+        })
+
+    }
+
+
+    private fun fetchMatchInfo(matchId : String){
+
+        riotApiService.getMatchInfo(matchId).enqueue(object : retrofit2.Callback<MatchDto>{
+
+            override fun onResponse(call: Call<MatchDto>, response: Response<MatchDto>) {
+
+                if(response.isSuccessful){
+
+                    val matchInfo = response.body()
+
+                    matchInfo?.let {
+
+                    }
+
+                }
+                else
+                    Log.e("YourActivity", "Error Body: ${response.errorBody()?.string()}")
+
+
+            }
+
+            override fun onFailure(call: Call<MatchDto>, t: Throwable) {
+                Log.e("API Call", "Failed: ${t.message}")
+            }
 
         })
 

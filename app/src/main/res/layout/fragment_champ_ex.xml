@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".Fragment.ChampExFragment">
+    tools:context=".View.Fragment.ChampExFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/champ_skill_recycler"

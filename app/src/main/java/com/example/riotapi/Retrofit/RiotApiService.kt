@@ -1,6 +1,7 @@
 package com.example.riotapi.Retrofit
 
 import com.example.riotapi.Data.RetrofitData.ChampSkillInfo
+import com.example.riotapi.Data.RetrofitData.MatchDto
 import com.example.riotapi.Data.RetrofitData.UserInfo
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -18,9 +19,17 @@ interface RiotApiService {
     @Headers(
         "X-Riot-Token: RGAPI-053aeb41-c12c-4439-a7ec-9938b942d7de"
     )
-    @GET("lol/match/v5/matches/by-puuid/{puuid}/ids")
-    fun getMatchIds(@Path(value = "puuid", encoded = true) puuId : String,
-                    ) : retrofit2.Call<List<String>>
+    @GET("lol/match/v5/matches/by-puuid/{puuid}/ids?count=5")
+    fun getMatchIds(@Path(value = "puuid", encoded = true) puuId : String) : retrofit2.Call<List<String>>
+
+
+    @Headers(
+        "X-Riot-Token: RGAPI-053aeb41-c12c-4439-a7ec-9938b942d7de"
+    )
+    @GET("lol/match/v5/matches/{matchId}")
+    fun getMatchInfo(@Path(value = "matchId" , encoded = true) matchId : String) : retrofit2.Call<MatchDto>
+
+
 
 
 }

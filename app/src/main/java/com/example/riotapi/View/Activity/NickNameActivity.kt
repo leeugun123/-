@@ -1,20 +1,15 @@
-package com.example.riotapi.View
+package com.example.riotapi.View.Activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.riotapi.Adapter.ChampSkillAdapter
 import com.example.riotapi.Data.JsonData.ChampHashMap
 import com.example.riotapi.Data.JsonData.ChampionMap
 import com.example.riotapi.Data.UserNickName
-import com.example.riotapi.Fragment.ChampExFragment
-import com.example.riotapi.Fragment.FightRecordFragment
+import com.example.riotapi.View.Fragment.ChampExFragment
+import com.example.riotapi.View.Fragment.FightRecordFragment
 import com.example.riotapi.R
 import com.example.riotapi.ViewModel.NickNameViewModel
 import com.example.riotapi.databinding.ActivityNickNameBinding

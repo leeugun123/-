@@ -1,4 +1,4 @@
-package com.example.riotapi.Fragment
+package com.example.riotapi.View.Fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

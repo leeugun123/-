@@ -1,4 +1,4 @@
-package com.example.riotapi.View
+package com.example.riotapi.View.Activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
