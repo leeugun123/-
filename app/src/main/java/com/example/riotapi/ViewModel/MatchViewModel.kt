@@ -1,6 +1,8 @@
 package com.example.riotapi.ViewModel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.riotapi.Data.RetrofitData.MatchDto
 import com.example.riotapi.Retrofit.RiotApiService
@@ -17,6 +19,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
 class MatchViewModel : ViewModel() {
+
+    private val _summonerMatchInfoList = MutableLiveData<List<MatchDto>>()
+    val summonerMatchInfoList : LiveData<List<MatchDto>> get() = _summonerMatchInfoList
+
 
     private var retrofit : Retrofit = Retrofit.Builder()
         .baseUrl("https://asia.api.riotgames.com/")
@@ -38,22 +44,16 @@ class MatchViewModel : ViewModel() {
 
                     matchIdLists?.let { matchIdList ->
 
-                        // Coroutine scope to launch a new coroutine
                         CoroutineScope(Dispatchers.Main).launch {
 
-                            // List of Deferred jobs for fetchMatchInfo calls
                             val jobs = matchIdList.map { matchId ->
                                 async(Dispatchers.IO) {
                                     fetchMatchInfo(matchId)
                                 }
                             }
-
-                            // Await for all jobs to complete
-                            val matchInfos = jobs.awaitAll()
-
-                            // Process the synchronized matchInfos list
-                            processMatchInfos(matchInfos)
+                            _summonerMatchInfoList.value = jobs.awaitAll()
                         }
+
                     }
 
                 }
@@ -74,7 +74,7 @@ class MatchViewModel : ViewModel() {
 
     private suspend fun fetchMatchInfo(matchId : String) : MatchDto{
 
-        Log.e("TAG","실행")
+        Log.e("TAG", "실행$matchId")
 
         return withContext(Dispatchers.IO) {
             val response = riotApiService.getMatchInfo(matchId).execute()
@@ -84,19 +84,10 @@ class MatchViewModel : ViewModel() {
                 Log.e("YourActivity", "Error Body: ${response.errorBody()?.string()}")
                 throw IOException("Failed to fetch MatchInfo")
             }
+
         }
 
-    }
 
-    private fun processMatchInfos(matchInfos: List<MatchDto>) {
-
-        Log.e("TAG","종료")
-
-
-        // Process the synchronized matchInfos list here
-        for (matchInfo in matchInfos) {
-            // Your processing logic
-        }
     }
 
 
