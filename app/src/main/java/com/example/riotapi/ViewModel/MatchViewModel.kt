@@ -4,10 +4,17 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.riotapi.Data.RetrofitData.MatchDto
 import com.example.riotapi.Retrofit.RiotApiService
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.IOException
 
 class MatchViewModel : ViewModel() {
 
@@ -29,12 +36,24 @@ class MatchViewModel : ViewModel() {
 
                     val matchIdLists = response.body()
 
-                    matchIdLists?.let {matchIdList ->
+                    matchIdLists?.let { matchIdList ->
 
-                        for(matchId in matchIdList){
-                           fetchMatchInfo(matchId)
+                        // Coroutine scope to launch a new coroutine
+                        CoroutineScope(Dispatchers.Main).launch {
+
+                            // List of Deferred jobs for fetchMatchInfo calls
+                            val jobs = matchIdList.map { matchId ->
+                                async(Dispatchers.IO) {
+                                    fetchMatchInfo(matchId)
+                                }
+                            }
+
+                            // Await for all jobs to complete
+                            val matchInfos = jobs.awaitAll()
+
+                            // Process the synchronized matchInfos list
+                            processMatchInfos(matchInfos)
                         }
-
                     }
 
                 }
@@ -53,34 +72,31 @@ class MatchViewModel : ViewModel() {
     }
 
 
-    private fun fetchMatchInfo(matchId : String){
+    private suspend fun fetchMatchInfo(matchId : String) : MatchDto{
 
-        riotApiService.getMatchInfo(matchId).enqueue(object : retrofit2.Callback<MatchDto>{
+        Log.e("TAG","실행")
 
-            override fun onResponse(call: Call<MatchDto>, response: Response<MatchDto>) {
-
-                if(response.isSuccessful){
-
-                    val matchInfo = response.body()
-
-                    matchInfo?.let {
-
-                    }
-
-                }
-                else
-                    Log.e("YourActivity", "Error Body: ${response.errorBody()?.string()}")
-
-
+        return withContext(Dispatchers.IO) {
+            val response = riotApiService.getMatchInfo(matchId).execute()
+            if (response.isSuccessful) {
+                response.body() ?: throw NullPointerException("MatchDto is null")
+            } else {
+                Log.e("YourActivity", "Error Body: ${response.errorBody()?.string()}")
+                throw IOException("Failed to fetch MatchInfo")
             }
+        }
 
-            override fun onFailure(call: Call<MatchDto>, t: Throwable) {
-                Log.e("API Call", "Failed: ${t.message}")
-            }
+    }
 
-        })
+    private fun processMatchInfos(matchInfos: List<MatchDto>) {
+
+        Log.e("TAG","종료")
 
 
+        // Process the synchronized matchInfos list here
+        for (matchInfo in matchInfos) {
+            // Your processing logic
+        }
     }
 
 
