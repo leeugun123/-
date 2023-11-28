@@ -53,6 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:text="레벨"
+                    android:textColor="@color/black"
                     android:textSize="15sp"
                     />
 
@@ -70,7 +71,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="챔피언 숙련도 : "
-                    android:textSize="15sp"
+                    android:textSize="18sp"
                     android:textColor="@color/black"
                     />
 
@@ -80,16 +81,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:text="2023"
-                    android:textSize="20sp"
+                    android:textSize="25sp"
                     android:textColor="#3F51B5"
                     android:textStyle="bold"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:text="점"
-                    android:textSize="20sp"
+                    android:textSize="18sp"
                     android:textColor="@color/black"/>
 
             </LinearLayout>

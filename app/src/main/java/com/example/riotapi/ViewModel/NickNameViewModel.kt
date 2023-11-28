@@ -14,15 +14,16 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class NickNameViewModel() : ViewModel() {
 
+
     private val _champSkillInfoList = MutableLiveData<List<ChampSkillInfo>>()
     val champSkillInfoList : LiveData<List<ChampSkillInfo>> get() = _champSkillInfoList
 
-    private var retrofit : Retrofit = Retrofit.Builder()
+    private val retrofit : Retrofit = Retrofit.Builder()
         .baseUrl("https://kr.api.riotgames.com/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    private var riotApiService : RiotApiService = retrofit.create(RiotApiService::class.java)
+    private val riotApiService : RiotApiService = retrofit.create(RiotApiService::class.java)
 
 
     fun fetchUserInfo(userNickName : String){
@@ -36,6 +37,7 @@ class NickNameViewModel() : ViewModel() {
 
                     dataList?.let {
                         fetchSkillInfo(it.id)
+                        MatchViewModel().fetchMatchIds(it.puuId)
                     }
 
                 }
@@ -75,8 +77,6 @@ class NickNameViewModel() : ViewModel() {
         })
 
     }
-
-
 
 
 
