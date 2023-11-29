@@ -8,6 +8,7 @@ import com.example.riotapi.Data.RetrofitData.MatchData.GameInfo
 import com.example.riotapi.Data.RetrofitData.MatchData.MatchDto
 import com.example.riotapi.Data.RetrofitData.MatchData.Participant
 import com.example.riotapi.Data.UserInfo
+import com.example.riotapi.Retrofit.RetrofitApi_Instance.asia_RetrofitApi
 import com.example.riotapi.Retrofit.RiotApiService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,17 +27,9 @@ class MatchViewModel : ViewModel() {
     private val _summonerMatchInfoList = MutableLiveData<List<MatchDto>>()
     val summonerMatchInfoList : LiveData<List<MatchDto>> get() = _summonerMatchInfoList
 
-    private var retrofit : Retrofit = Retrofit.Builder()
-        .baseUrl("https://asia.api.riotgames.com/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private var riotApiService : RiotApiService = retrofit.create(RiotApiService::class.java)
-
-
     fun fetchMatchIds(){
 
-        riotApiService.getMatchIds(UserInfo.puuId).enqueue(object : retrofit2.Callback<List<String>>{
+        asia_RetrofitApi.getMatchIds(UserInfo.puuId).enqueue(object : retrofit2.Callback<List<String>>{
 
             override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
 
@@ -54,24 +47,8 @@ class MatchViewModel : ViewModel() {
                                 }
                             }
                             _summonerMatchInfoList.value = jobs.awaitAll()
-
-
-                            _summonerMatchInfoList.value!!.forEach {matchDto ->
-
-                                matchDto.info.participants.forEach { participant ->
-
-                                    val p = participant
-                                    Log.e("TAG",p.riotIdGameName +" " + p.champLevel + " " + p.kills + " " + p.deaths + " " + p.assists)
-                                }
-                                Log.e("TAG"," ")
-                            }
-
-
-
                         }
-
                     }
-
                 }
                 else
                     Log.e("YourActivity", "Error Body: ${response.errorBody()?.string()}")
@@ -88,21 +65,15 @@ class MatchViewModel : ViewModel() {
     }
 
 
-    private suspend fun fetchMatchInfo(matchId : String) : MatchDto {
+    private suspend fun fetchMatchInfo(matchId : String) = withContext(Dispatchers.IO) {
 
-       // Log.e("TAG", "실행$matchId")
-
-        return withContext(Dispatchers.IO) {
-            val response = riotApiService.getMatchInfo(matchId).execute()
-            if (response.isSuccessful) {
-                response.body() ?: throw NullPointerException("MatchDto is null")
-            } else {
-                Log.e("YourActivity", "Error Body: ${response.errorBody()?.string()}")
-                throw IOException("Failed to fetch MatchInfo")
-            }
-
+        val response = asia_RetrofitApi.getMatchInfo(matchId).execute()
+        if (response.isSuccessful) {
+            response.body() ?: throw NullPointerException("MatchDto is null")
+        } else {
+            Log.e("YourActivity", "Error Body: ${response.errorBody()?.string()}")
+            throw IOException("Failed to fetch MatchInfo")
         }
-
 
     }
 

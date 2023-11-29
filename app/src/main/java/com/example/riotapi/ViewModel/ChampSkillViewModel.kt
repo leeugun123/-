@@ -7,6 +7,9 @@ import androidx.lifecycle.ViewModel
 import com.example.riotapi.Data.RetrofitData.ChampSkillInfo
 import com.example.riotapi.Data.RetrofitData.UserDto
 import com.example.riotapi.Data.UserInfo
+import com.example.riotapi.Retrofit.RetrofitApi_Instance
+import com.example.riotapi.Retrofit.RetrofitApi_Instance.kr_RetrofitApi
+import com.example.riotapi.Retrofit.RetrofitBuilder
 import com.example.riotapi.Retrofit.RiotApiService
 import retrofit2.Call
 import retrofit2.Response
@@ -18,17 +21,9 @@ class ChampSkillViewModel : ViewModel() {
     private val _champSkillInfoList = MutableLiveData<List<ChampSkillInfo>>()
     val champSkillInfoList : LiveData<List<ChampSkillInfo>> get() = _champSkillInfoList
 
-    private val retrofit : Retrofit = Retrofit.Builder()
-        .baseUrl("https://kr.api.riotgames.com/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    private val riotApiService : RiotApiService = retrofit.create(RiotApiService::class.java)
-
-
     fun fetchSkillInfo(){
 
-        riotApiService.getChampionSkill(UserInfo.id).enqueue(object : retrofit2.Callback<List<ChampSkillInfo>> {
+        kr_RetrofitApi.getChampionSkill(UserInfo.id).enqueue(object : retrofit2.Callback<List<ChampSkillInfo>> {
 
             override fun onResponse(call: Call<List<ChampSkillInfo>>, response : Response<List<ChampSkillInfo>>) {
 
