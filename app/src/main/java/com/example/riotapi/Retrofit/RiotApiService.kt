@@ -19,7 +19,7 @@ interface RiotApiService {
     @Headers(
         "X-Riot-Token: RGAPI-053aeb41-c12c-4439-a7ec-9938b942d7de"
     )
-    @GET("lol/match/v5/matches/by-puuid/{puuid}/ids?count=5")
+    @GET("lol/match/v5/matches/by-puuid/{puuid}/ids?count=10")
     fun getMatchIds(@Path(value = "puuid", encoded = true) puuId : String) : retrofit2.Call<List<String>>
 
 

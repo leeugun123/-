@@ -10,6 +10,7 @@ import com.example.riotapi.Data.JsonData.ChampHashMap
 import com.example.riotapi.Data.RetrofitData.ChampSkillInfo
 import com.example.riotapi.Data.RetrofitData.MatchData.MatchDto
 import com.example.riotapi.Data.UserInfo
+import com.example.riotapi.R
 import com.example.riotapi.databinding.MatchInfoListBinding
 
 class MatchInfoAdapter(private val matchInfoList : List<MatchDto>) : RecyclerView.Adapter<MatchInfoAdapter.ViewHolder>() {
@@ -44,8 +45,10 @@ class MatchInfoAdapter(private val matchInfoList : List<MatchDto>) : RecyclerVie
 
                 if(participant.win){
                     holder.binding.winLoose.text = "승"
+                    holder.binding.winLoose.setBackgroundResource(R.color.win)
                 }else{
                     holder.binding.winLoose.text = "패"
+                    holder.binding.winLoose.setBackgroundResource(R.color.lose)
                 }
 
                 val champUri = "https://ddragon.leagueoflegends.com/cdn/13.23.1/img/champion/" + participant.championName  + ".png"
