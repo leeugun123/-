@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.riotapi.Adapter.MatchInfoAdapter
 import com.example.riotapi.R
 import com.example.riotapi.ViewModel.MatchViewModel
 import com.example.riotapi.databinding.FragmentFightRecordBinding
@@ -25,12 +27,14 @@ class FightRecordFragment : Fragment() {
 
         mBinding = FragmentFightRecordBinding.inflate(inflater,container,false)
 
-        //mBinding.recyclerViewId.layoutManager = = LinearLayoutManager(requireContext())
+        mBinding.matchRecordRecycler.layoutManager = LinearLayoutManager(requireContext())
 
         matchViewModel = ViewModelProvider(requireActivity())[MatchViewModel::class.java]
 
+        matchViewModel.fetchMatchIds()
+
         matchViewModel.summonerMatchInfoList.observe(requireActivity()){ matchListInfo ->
-            // mBinding.recyclerViewId.adapter = --Adapter(matchListInfo)
+            mBinding.matchRecordRecycler.adapter = MatchInfoAdapter(matchListInfo)
         }
 
         return mBinding.root

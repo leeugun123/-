@@ -9,13 +9,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.riotapi.Adapter.ChampSkillAdapter
 import com.example.riotapi.R
+import com.example.riotapi.ViewModel.ChampSkillViewModel
 import com.example.riotapi.ViewModel.NickNameViewModel
 import com.example.riotapi.databinding.FragmentChampExBinding
 
 class ChampExFragment : Fragment() {
 
     private lateinit var mBinding : FragmentChampExBinding
-    private lateinit var nickNameViewModel : NickNameViewModel
+    private lateinit var champSkillViewModel : ChampSkillViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,9 +28,11 @@ class ChampExFragment : Fragment() {
 
         mBinding.champSkillRecycler.layoutManager = LinearLayoutManager(requireContext())
 
-        nickNameViewModel = ViewModelProvider(requireActivity())[NickNameViewModel::class.java]
+        champSkillViewModel = ViewModelProvider(requireActivity())[ChampSkillViewModel::class.java]
 
-        nickNameViewModel.champSkillInfoList.observe(requireActivity()) { skillInfo ->
+        champSkillViewModel.fetchSkillInfo()
+
+        champSkillViewModel.champSkillInfoList.observe(requireActivity()) { skillInfo ->
             mBinding.champSkillRecycler.adapter = ChampSkillAdapter(skillInfo)
         }
 

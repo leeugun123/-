@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.riotapi.Data.RetrofitData.MatchData.GameInfo
 import com.example.riotapi.Data.RetrofitData.MatchData.MatchDto
 import com.example.riotapi.Data.RetrofitData.MatchData.Participant
 import com.example.riotapi.Data.UserInfo
@@ -54,7 +55,7 @@ class MatchViewModel : ViewModel() {
                             }
                             _summonerMatchInfoList.value = jobs.awaitAll()
 
-                            /*
+
                             _summonerMatchInfoList.value!!.forEach {matchDto ->
 
                                 matchDto.info.participants.forEach { participant ->
@@ -64,7 +65,7 @@ class MatchViewModel : ViewModel() {
                                 }
                                 Log.e("TAG"," ")
                             }
-                            */
+
 
 
                         }

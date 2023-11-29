@@ -13,10 +13,10 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class NickNameViewModel() : ViewModel() {
+class ChampSkillViewModel : ViewModel() {
 
-    private val _summonerInfo = MutableLiveData<UserDto>()
-    val summonerInfo : LiveData<UserDto> get() = _summonerInfo
+    private val _champSkillInfoList = MutableLiveData<List<ChampSkillInfo>>()
+    val champSkillInfoList : LiveData<List<ChampSkillInfo>> get() = _champSkillInfoList
 
     private val retrofit : Retrofit = Retrofit.Builder()
         .baseUrl("https://kr.api.riotgames.com/")
@@ -26,29 +26,27 @@ class NickNameViewModel() : ViewModel() {
     private val riotApiService : RiotApiService = retrofit.create(RiotApiService::class.java)
 
 
-    fun fetchUserInfo(userNickName : String){
+    fun fetchSkillInfo(){
 
-        riotApiService.getUserData(userNickName).enqueue(object : retrofit2.Callback<UserDto> {
+        riotApiService.getChampionSkill(UserInfo.id).enqueue(object : retrofit2.Callback<List<ChampSkillInfo>> {
 
-            override fun onResponse(call: Call<UserDto>, response : Response<UserDto>) {
+            override fun onResponse(call: Call<List<ChampSkillInfo>>, response : Response<List<ChampSkillInfo>>) {
 
                 if (response.isSuccessful) {
                     val dataList = response.body()
-                    dataList?.let {_summonerInfo.value = it}
+                    dataList?.let { _champSkillInfoList.value = it }
                 }
                 else{ Log.e("API Call", "Error: ${response.code()}") }
 
             }
 
-            override fun onFailure(call: Call<UserDto>, t: Throwable) {
+            override fun onFailure(call: Call<List<ChampSkillInfo>>, t: Throwable) {
                 Log.e("API Call", "Failed: ${t.message}")
             }
 
         })
 
     }
-
-
 
 
 }

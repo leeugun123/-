@@ -7,9 +7,13 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.riotapi.Data.JsonData.ChampHashMap
 import com.example.riotapi.Data.JsonData.ChampionMap
+import com.example.riotapi.Data.RetrofitData.UserDto
+import com.example.riotapi.Data.UserInfo
 import com.example.riotapi.View.Fragment.ChampExFragment
 import com.example.riotapi.View.Fragment.FightRecordFragment
 import com.example.riotapi.R
+import com.example.riotapi.ViewModel.ChampSkillViewModel
+import com.example.riotapi.ViewModel.MatchViewModel
 import com.example.riotapi.ViewModel.NickNameViewModel
 import com.example.riotapi.databinding.ActivityNickNameBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -19,7 +23,6 @@ class NickNameActivity : AppCompatActivity() , BottomNavigationView.OnNavigation
 
     private lateinit var mBinding : ActivityNickNameBinding
     private lateinit var nickNameViewModel : NickNameViewModel
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,13 +42,31 @@ class NickNameActivity : AppCompatActivity() , BottomNavigationView.OnNavigation
 
         }
 
+        nickNameViewModel.summonerInfo.observe(this){
+            syncUserInfo(it)
+            supportFragmentManager.beginTransaction().add(R.id.fragment_container, ChampExFragment()).commit()
+        }
+
+
+    }
+
+    private fun syncUserInfo(it: UserDto?) {
+
+        val user = it!!
+
+        UserInfo.name = user.name
+        UserInfo.id = user.id
+        UserInfo.summonerLevel = user.summonerLevel
+        UserInfo.puuId = user.puuId
+        UserInfo.profileIconId = user.profileIconId
+        UserInfo.revisionDate = user.revisionDate
+        UserInfo.accountId = user.accountId
 
     }
 
     private fun activityInit() {
         jsonParsing()
         nickNameViewModel = ViewModelProvider(this)[NickNameViewModel::class.java]
-        supportFragmentManager.beginTransaction().add(R.id.fragment_container, ChampExFragment()).commit()
         mBinding.navView.setOnNavigationItemSelectedListener(this)
     }
 
@@ -78,11 +99,8 @@ class NickNameActivity : AppCompatActivity() , BottomNavigationView.OnNavigation
 
                 return true;
             }
-
         }
-
         return false
-
     }
 
 
