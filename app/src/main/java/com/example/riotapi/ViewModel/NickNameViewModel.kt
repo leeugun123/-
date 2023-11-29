@@ -5,7 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.riotapi.Data.RetrofitData.ChampSkillInfo
-import com.example.riotapi.Data.RetrofitData.UserInfo
+import com.example.riotapi.Data.RetrofitData.UserDto
+import com.example.riotapi.Data.UserInfo
 import com.example.riotapi.Retrofit.RiotApiService
 import retrofit2.Call
 import retrofit2.Response
@@ -28,16 +29,24 @@ class NickNameViewModel() : ViewModel() {
 
     fun fetchUserInfo(userNickName : String){
 
-        riotApiService.getUserData(userNickName).enqueue(object : retrofit2.Callback<UserInfo> {
+        riotApiService.getUserData(userNickName).enqueue(object : retrofit2.Callback<UserDto> {
 
-            override fun onResponse(call: Call<UserInfo>, response : Response<UserInfo>) {
+            override fun onResponse(call: Call<UserDto>, response : Response<UserDto>) {
 
                 if (response.isSuccessful) {
                     val dataList = response.body()
 
                     dataList?.let {
-                        fetchSkillInfo(it.id)
-                        MatchViewModel().fetchMatchIds(it.puuId)
+
+                        syncUserInfo(it)
+                        //static 변수에 동기화
+
+                        fetchSkillInfo()
+                        //챔피언 숙련도 가져오기
+
+                        MatchViewModel().fetchMatchIds()
+                        //대전기록 가져오기
+
                     }
 
                 }
@@ -48,7 +57,18 @@ class NickNameViewModel() : ViewModel() {
 
             }
 
-            override fun onFailure(call: Call<UserInfo>, t: Throwable) {
+            private fun syncUserInfo(it: UserDto) {
+                UserInfo.name = it.name
+                UserInfo.id = it.id
+                UserInfo.accountId = it.accountId
+                UserInfo.puuId = it.puuId
+                UserInfo.profileIconId = it.profileIconId
+                UserInfo.revisionDate = it.revisionDate
+                UserInfo.summonerLevel = it.summonerLevel
+            }
+
+
+            override fun onFailure(call: Call<UserDto>, t: Throwable) {
                 Log.e("API Call", "Failed: ${t.message}")
             }
 
@@ -56,9 +76,9 @@ class NickNameViewModel() : ViewModel() {
 
     }
 
-    private fun fetchSkillInfo(summonerId : String){
+    private fun fetchSkillInfo(){
 
-        riotApiService.getChampionSkill(summonerId).enqueue(object : retrofit2.Callback<List<ChampSkillInfo>> {
+        riotApiService.getChampionSkill(UserInfo.id).enqueue(object : retrofit2.Callback<List<ChampSkillInfo>> {
 
             override fun onResponse(call: Call<List<ChampSkillInfo>>, response : Response<List<ChampSkillInfo>>) {
 

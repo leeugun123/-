@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.riotapi.Data.JsonData.ChampHashMap
 import com.example.riotapi.Data.JsonData.ChampionMap
-import com.example.riotapi.Data.UserNickName
 import com.example.riotapi.View.Fragment.ChampExFragment
 import com.example.riotapi.View.Fragment.FightRecordFragment
 import com.example.riotapi.R
@@ -31,11 +30,10 @@ class NickNameActivity : AppCompatActivity() , BottomNavigationView.OnNavigation
 
         mBinding.inputBut.setOnClickListener {
 
-            UserNickName.userNickName = mBinding.nicknameEditText.text.toString()
+            val nickName = mBinding.nicknameEditText.text.toString()
 
-            if(UserNickName.userNickName.isNotBlank()){
-                //api 통신 호출 및 Room 데이터 저장
-                nickNameViewModel.fetchUserInfo(UserNickName.userNickName)
+            if(nickName.isNotBlank()){
+                nickNameViewModel.fetchUserInfo(nickName)
             }else
                 Toast.makeText(this,"닉네임이 입력되지 않았습니다.",Toast.LENGTH_SHORT).show()
 

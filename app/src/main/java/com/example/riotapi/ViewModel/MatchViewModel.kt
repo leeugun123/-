@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.riotapi.Data.RetrofitData.MatchDto
+import com.example.riotapi.Data.RetrofitData.MatchData.MatchDto
+import com.example.riotapi.Data.RetrofitData.MatchData.Participant
+import com.example.riotapi.Data.UserInfo
 import com.example.riotapi.Retrofit.RiotApiService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +25,6 @@ class MatchViewModel : ViewModel() {
     private val _summonerMatchInfoList = MutableLiveData<List<MatchDto>>()
     val summonerMatchInfoList : LiveData<List<MatchDto>> get() = _summonerMatchInfoList
 
-
     private var retrofit : Retrofit = Retrofit.Builder()
         .baseUrl("https://asia.api.riotgames.com/")
         .addConverterFactory(GsonConverterFactory.create())
@@ -32,9 +33,9 @@ class MatchViewModel : ViewModel() {
     private var riotApiService : RiotApiService = retrofit.create(RiotApiService::class.java)
 
 
-    fun fetchMatchIds(puuId : String){
+    fun fetchMatchIds(){
 
-        riotApiService.getMatchIds(puuId).enqueue(object : retrofit2.Callback<List<String>>{
+        riotApiService.getMatchIds(UserInfo.puuId).enqueue(object : retrofit2.Callback<List<String>>{
 
             override fun onResponse(call: Call<List<String>>, response: Response<List<String>>) {
 
@@ -52,6 +53,20 @@ class MatchViewModel : ViewModel() {
                                 }
                             }
                             _summonerMatchInfoList.value = jobs.awaitAll()
+
+                            /*
+                            _summonerMatchInfoList.value!!.forEach {matchDto ->
+
+                                matchDto.info.participants.forEach { participant ->
+
+                                    val p = participant
+                                    Log.e("TAG",p.riotIdGameName +" " + p.champLevel + " " + p.kills + " " + p.deaths + " " + p.assists)
+                                }
+                                Log.e("TAG"," ")
+                            }
+                            */
+
+
                         }
 
                     }
@@ -72,9 +87,9 @@ class MatchViewModel : ViewModel() {
     }
 
 
-    private suspend fun fetchMatchInfo(matchId : String) : MatchDto{
+    private suspend fun fetchMatchInfo(matchId : String) : MatchDto {
 
-        Log.e("TAG", "실행$matchId")
+       // Log.e("TAG", "실행$matchId")
 
         return withContext(Dispatchers.IO) {
             val response = riotApiService.getMatchInfo(matchId).execute()

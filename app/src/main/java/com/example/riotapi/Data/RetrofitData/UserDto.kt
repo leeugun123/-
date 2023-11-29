@@ -1,11 +1,8 @@
 package com.example.riotapi.Data.RetrofitData
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-
-data class UserInfo(
+data class UserDto(
 
     @SerializedName("id")
     val id : String,
