@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.example.riotapi.Data.JsonData.Champ.ChampHashMap
 import com.example.riotapi.Data.JsonData.Champ.ChampionMap
+import com.example.riotapi.Data.JsonData.Spell.SpellHashMap
 import com.example.riotapi.Data.JsonData.Spell.SpellMap
 import com.example.riotapi.Data.RetrofitData.UserDto
 import com.example.riotapi.Data.UserInfo
@@ -135,7 +136,7 @@ class NickNameActivity : AppCompatActivity() {
         val spellMap = Gson().fromJson(jsonString, SpellMap::class.java)
 
         spellMap.data?.map { (spellId, spellData) ->
-            ChampHashMap.champHashInfo[spellData.key] = spellId
+            SpellHashMap.spellHashInfo[spellData.key] = spellId
         }
     }
 

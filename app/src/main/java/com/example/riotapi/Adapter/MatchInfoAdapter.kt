@@ -5,6 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.riotapi.Data.JsonData.Champ.ChampHashMap
+import com.example.riotapi.Data.JsonData.Spell.SpellHashMap
+import com.example.riotapi.Data.JsonData.Spell.SpellHashMap.spellHashInfo
+import com.example.riotapi.Data.JsonData.Spell.SpellMap
 import com.example.riotapi.Data.RetrofitData.MatchData.MatchDto
 import com.example.riotapi.Data.UserInfo
 import com.example.riotapi.R
@@ -38,6 +42,8 @@ class MatchInfoAdapter(private val matchInfoList : List<MatchDto>) : RecyclerVie
 
             if(participant.puuid == UserInfo.puuId){
 
+                // ================================  승패 여부  =====================================
+
                 if(participant.win){
                     holder.binding.winLoose.text = "승"
                     holder.binding.winLoose.setBackgroundResource(R.color.win)
@@ -46,12 +52,48 @@ class MatchInfoAdapter(private val matchInfoList : List<MatchDto>) : RecyclerVie
                     holder.binding.winLoose.setBackgroundResource(R.color.lose)
                 }
 
+                // ==================================================================================
+
+
+
+
+                // ================================  챔피언 이미지 =====================================
+
                 val champUri = "https://ddragon.leagueoflegends.com/cdn/13.23.1/img/champion/" + participant.championName  + ".png"
 
                 Glide.with(holder.itemView.context)
                     .load(champUri)
                     .fitCenter()
                     .into(holder.binding.champImg)
+
+                // ==================================================================================
+
+
+
+
+
+                // ================================  스펠  =====================================
+
+                val spellUri_1 = "https://ddragon.leagueoflegends.com/cdn/13.23.1/img/spell/" + spellHashInfo[participant.spell_1.toString()]  + ".png"
+                val spellUri_2 = "https://ddragon.leagueoflegends.com/cdn/13.23.1/img/spell/" + spellHashInfo[participant.spell_2.toString()]  + ".png"
+
+                Glide.with(holder.itemView.context)
+                    .load(spellUri_1)
+                    .fitCenter()
+                    .into(holder.binding.spell1)
+
+
+                Glide.with(holder.itemView.context)
+                    .load(spellUri_2)
+                    .fitCenter()
+                    .into(holder.binding.spell2)
+
+                // =======================================================================================
+
+
+
+
+                // ================================  아이템 이미지  =====================================
 
                 val item0Uri = "https://ddragon.leagueoflegends.com/cdn/13.23.1/img/item/" +  participant.item0 + ".png"
                 val item1Uri = "https://ddragon.leagueoflegends.com/cdn/13.23.1/img/item/" +  participant.item1 + ".png"
@@ -96,6 +138,10 @@ class MatchInfoAdapter(private val matchInfoList : List<MatchDto>) : RecyclerVie
                     .load(item6Uri)
                     .fitCenter()
                     .into(holder.binding.item6)
+
+                // =======================================================================================
+
+
 
 
 
