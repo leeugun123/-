@@ -13,6 +13,8 @@ import com.example.riotapi.Data.RetrofitData.MatchData.MatchDto
 import com.example.riotapi.Data.UserInfo
 import com.example.riotapi.R
 import com.example.riotapi.databinding.MatchInfoListBinding
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 class MatchInfoAdapter(private val matchInfoList : List<MatchDto>) : RecyclerView.Adapter<MatchInfoAdapter.ViewHolder>() {
 
@@ -149,10 +151,11 @@ class MatchInfoAdapter(private val matchInfoList : List<MatchDto>) : RecyclerVie
                 holder.binding.death.text = participant.deaths.toString()
                 holder.binding.assist.text = participant.assists.toString()
 
-                /*
-                holder.binding.kda.text = participant.challenges.kda.toString()
-                holder.binding.killParticipate.text = participant.challenges.killParticipation.toString()
-                */
+
+                holder.binding.kda.text = roundToTwoDecimalPlaces(participant.challenges.kda).toString()
+
+                //holder.binding.killParticipate.text = participant.challenges.killParticipation.toString()
+
 
             }
 
@@ -162,6 +165,8 @@ class MatchInfoAdapter(private val matchInfoList : List<MatchDto>) : RecyclerVie
     }
 
     override fun getItemCount() = matchInfoList.size
+
+    private fun roundToTwoDecimalPlaces(value: Double) = BigDecimal(value).setScale(1, RoundingMode.HALF_UP).toDouble()
 
 
 }
