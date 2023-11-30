@@ -82,7 +82,7 @@
                     android:layout_marginLeft="10dp"
                     android:text="2023"
                     android:textSize="25sp"
-                    android:textColor="#3F51B5"
+                    android:textColor="#4CAF50"
                     android:textStyle="bold"/>
 
                 <TextView
