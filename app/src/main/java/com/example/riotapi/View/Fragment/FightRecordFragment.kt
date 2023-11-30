@@ -1,6 +1,7 @@
 package com.example.riotapi.View.Fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +29,8 @@ class FightRecordFragment : Fragment() {
         mBinding = FragmentFightRecordBinding.inflate(inflater,container,false)
 
         mBinding.matchRecordRecycler.layoutManager = LinearLayoutManager(requireContext())
+
+        Log.e("TAG","대전기록 데이터 가져옴")
 
         matchViewModel = ViewModelProvider(requireActivity())[MatchViewModel::class.java]
 

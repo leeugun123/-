@@ -1,6 +1,7 @@
 package com.example.riotapi.View.Fragment
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,8 @@ class ChampExFragment : Fragment() {
         mBinding = FragmentChampExBinding.inflate(inflater,container,false)
 
         mBinding.champSkillRecycler.layoutManager = LinearLayoutManager(requireContext())
+
+        Log.e("TAG","챔프 숙련도 데이터 가져옴")
 
         champSkillViewModel = ViewModelProvider(requireActivity())[ChampSkillViewModel::class.java]
 

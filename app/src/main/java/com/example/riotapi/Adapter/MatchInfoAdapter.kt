@@ -39,8 +39,6 @@ class MatchInfoAdapter(private val matchInfoList : List<MatchDto>) : RecyclerVie
 
         participant_list.info.participants.forEach { participant ->
 
-            Log.e("TAG",participant.riotIdGameName + "recyclerView")
-
             if(participant.puuid == UserInfo.puuId){
 
                 if(participant.win){
