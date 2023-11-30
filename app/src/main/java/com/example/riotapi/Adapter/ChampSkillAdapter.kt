@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.riotapi.Data.JsonData.ChampHashMap.champHashInfo
+import com.example.riotapi.Data.JsonData.Champ.ChampHashMap.champHashInfo
 import com.example.riotapi.Data.RetrofitData.ChampSkillInfo
 import com.example.riotapi.databinding.ChampSkillInfoBinding
 

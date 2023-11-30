@@ -1,13 +1,10 @@
 package com.example.riotapi.Adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.riotapi.Data.JsonData.ChampHashMap
-import com.example.riotapi.Data.RetrofitData.ChampSkillInfo
 import com.example.riotapi.Data.RetrofitData.MatchData.MatchDto
 import com.example.riotapi.Data.UserInfo
 import com.example.riotapi.R

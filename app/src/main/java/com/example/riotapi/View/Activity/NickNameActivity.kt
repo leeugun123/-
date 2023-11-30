@@ -3,23 +3,20 @@ package com.example.riotapi.View.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import com.example.riotapi.Data.JsonData.ChampHashMap
-import com.example.riotapi.Data.JsonData.ChampionMap
+import com.example.riotapi.Data.JsonData.Champ.ChampHashMap
+import com.example.riotapi.Data.JsonData.Champ.ChampionMap
+import com.example.riotapi.Data.JsonData.Spell.SpellMap
 import com.example.riotapi.Data.RetrofitData.UserDto
 import com.example.riotapi.Data.UserInfo
 import com.example.riotapi.View.Fragment.ChampExFragment
 import com.example.riotapi.View.Fragment.FightRecordFragment
 import com.example.riotapi.R
-import com.example.riotapi.ViewModel.ChampSkillViewModel
-import com.example.riotapi.ViewModel.MatchViewModel
 import com.example.riotapi.ViewModel.NickNameViewModel
 import com.example.riotapi.databinding.ActivityNickNameBinding
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.gson.Gson
 
 class NickNameActivity : AppCompatActivity() {
@@ -129,6 +126,20 @@ class NickNameActivity : AppCompatActivity() {
     }
 
     private fun jsonParsing() {
+        championParsing()
+        spellParsing()
+    }
+
+    private fun spellParsing() {
+        val jsonString = assets.open("SpellDataSet.json").reader().readText()
+        val spellMap = Gson().fromJson(jsonString, SpellMap::class.java)
+
+        spellMap.data?.map { (spellId, spellData) ->
+            ChampHashMap.champHashInfo[spellData.key] = spellId
+        }
+    }
+
+    private fun championParsing() {
         val jsonString = assets.open("champDataSet.json").reader().readText()
         val championMap = Gson().fromJson(jsonString, ChampionMap::class.java)
 
