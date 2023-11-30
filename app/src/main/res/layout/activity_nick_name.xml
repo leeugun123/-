@@ -19,7 +19,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:paddingLeft="5dp"
+            android:paddingLeft="10dp"
             android:hint="소환사 이름 입력" />
 
         <Button
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/rounded_corners_background"
-            android:text="입력"
+            android:text="조회"
             android:textColor="@color/white"/>
 
     </LinearLayout>

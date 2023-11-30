@@ -144,18 +144,11 @@ class MatchInfoAdapter(private val matchInfoList : List<MatchDto>) : RecyclerVie
                 // =======================================================================================
 
 
-
-
-
                 holder.binding.kill.text = participant.kills.toString()
                 holder.binding.death.text = participant.deaths.toString()
                 holder.binding.assist.text = participant.assists.toString()
 
-
-                holder.binding.kda.text = roundToTwoDecimalPlaces(participant.challenges.kda).toString()
-
-                //holder.binding.killParticipate.text = participant.challenges.killParticipation.toString()
-
+                holder.binding.killParticipate.text = removeDecimal(participant.challenges.killParticipation * 100).toString() + "%"
 
             }
 
@@ -166,7 +159,6 @@ class MatchInfoAdapter(private val matchInfoList : List<MatchDto>) : RecyclerVie
 
     override fun getItemCount() = matchInfoList.size
 
-    private fun roundToTwoDecimalPlaces(value: Double) = BigDecimal(value).setScale(1, RoundingMode.HALF_UP).toDouble()
-
+    private fun removeDecimal(value: Double) = value.toInt()
 
 }
