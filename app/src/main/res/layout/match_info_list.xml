@@ -118,6 +118,7 @@
                     android:layout_height="wrap_content"
                     android:text="킬 관여율 : "
                     android:textSize="15sp"
+                    android:textColor="@color/black"
                     />
 
                 <TextView
@@ -148,37 +149,45 @@
             <ImageView
                 android:id="@+id/item0"
                 android:layout_width="40dp"
-                android:layout_height="40dp"/>
+                android:layout_height="40dp"
+                android:src="@color/no_item"/>
 
             <ImageView
                 android:id="@+id/item1"
                 android:layout_width="40dp"
-                android:layout_height="40dp"/>
+                android:layout_height="40dp"
+                android:src="@color/no_item"/>
 
             <ImageView
                 android:id="@+id/item2"
                 android:layout_width="40dp"
-                android:layout_height="40dp"/>
+                android:layout_height="40dp"
+                android:src="@color/no_item"/>
 
             <ImageView
                 android:id="@+id/item3"
                 android:layout_width="40dp"
-                android:layout_height="40dp"/>
+                android:layout_height="40dp"
+                android:src="@color/no_item"/>
 
             <ImageView
                 android:id="@+id/item4"
                 android:layout_width="40dp"
-                android:layout_height="40dp"/>
+                android:layout_height="40dp"
+                android:src="@color/no_item"/>
 
             <ImageView
                 android:id="@+id/item5"
                 android:layout_width="40dp"
-                android:layout_height="40dp"/>
+                android:layout_height="40dp"
+                android:src="@color/no_item"/>
 
             <ImageView
                 android:id="@+id/item6"
                 android:layout_width="40dp"
-                android:layout_height="40dp"/>
+                android:layout_height="40dp"
+                android:src="@color/no_item"/>
+
 
         </LinearLayout>
         <!-- 아이템 사진 넣기 , 하단 -->

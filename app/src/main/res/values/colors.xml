@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="win">#2196F3</color>
     <color name="lose">#F44336</color>
+    <color name="no_item">#808080</color>
 </resources>

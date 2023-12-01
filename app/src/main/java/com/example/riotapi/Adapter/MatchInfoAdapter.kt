@@ -97,49 +97,30 @@ class MatchInfoAdapter(private val matchInfoList : List<MatchDto>) : RecyclerVie
 
                 // ================================  아이템 이미지  =====================================
 
-                val item0Uri = "https://ddragon.leagueoflegends.com/cdn/13.23.1/img/item/" +  participant.item0 + ".png"
-                val item1Uri = "https://ddragon.leagueoflegends.com/cdn/13.23.1/img/item/" +  participant.item1 + ".png"
-                val item2Uri = "https://ddragon.leagueoflegends.com/cdn/13.23.1/img/item/" +  participant.item2 + ".png"
-                val item3Uri = "https://ddragon.leagueoflegends.com/cdn/13.23.1/img/item/" +  participant.item3 + ".png"
-                val item4Uri = "https://ddragon.leagueoflegends.com/cdn/13.23.1/img/item/" +  participant.item4 + ".png"
-                val item5Uri = "https://ddragon.leagueoflegends.com/cdn/13.23.1/img/item/" +  participant.item5 + ".png"
-                val item6Uri = "https://ddragon.leagueoflegends.com/cdn/13.23.1/img/item/" +  participant.item6 + ".png"
+                val itemList = listOf(
+                    participant.item0, participant.item1 , participant.item2 , participant.item3 , participant.item4
+                    ,participant.item4, participant.item5 , participant.item6
+                )
+
+                val itemViews = listOf(
+                    holder.binding.item0, holder.binding.item1, holder.binding.item2,
+                    holder.binding.item3, holder.binding.item4, holder.binding.item5, holder.binding.item6
+                )
+
+                itemList.zip(itemViews).forEach { (itemId, itemView) ->
+
+                    if(itemId != 0){
+                        val itemUri = "https://ddragon.leagueoflegends.com/cdn/13.23.1/img/item/$itemId.png"
+
+                        Glide.with(holder.itemView.context)
+                            .load(itemUri)
+                            .fitCenter()
+                            .into(itemView)
+                    }
+
+                }
 
 
-                Glide.with(holder.itemView.context)
-                    .load(item0Uri)
-                    .fitCenter()
-                    .into(holder.binding.item0)
-
-                Glide.with(holder.itemView.context)
-                    .load(item1Uri)
-                    .fitCenter()
-                    .into(holder.binding.item1)
-
-                Glide.with(holder.itemView.context)
-                    .load(item2Uri)
-                    .fitCenter()
-                    .into(holder.binding.item2)
-
-                Glide.with(holder.itemView.context)
-                    .load(item3Uri)
-                    .fitCenter()
-                    .into(holder.binding.item3)
-
-                Glide.with(holder.itemView.context)
-                    .load(item4Uri)
-                    .fitCenter()
-                    .into(holder.binding.item4)
-
-                Glide.with(holder.itemView.context)
-                    .load(item5Uri)
-                    .fitCenter()
-                    .into(holder.binding.item5)
-
-                Glide.with(holder.itemView.context)
-                    .load(item6Uri)
-                    .fitCenter()
-                    .into(holder.binding.item6)
 
                 // =======================================================================================
 
