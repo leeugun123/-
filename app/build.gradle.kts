@@ -1,10 +1,13 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
+import java.util.Properties
+import java.io.FileInputStream
 
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 
 }
+
+
 
 kotlin {
     jvmToolchain(17)
@@ -16,12 +19,20 @@ android {
     namespace = "com.example.riotapi"
     compileSdk = 34
 
+    val properties = Properties().apply {
+        load(FileInputStream(File(rootProject.rootDir, "local.properties")))
+    }
+
+    val riotApiKey = properties["RIOT_APIKEY"] ?: "\"\""
+
     defaultConfig {
         applicationId = "com.example.riotapi"
         minSdk = 33
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
+
+        buildConfigField("String", "RIOT_API_KEY", "$riotApiKey")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -49,6 +60,7 @@ android {
     buildFeatures {
         compose = true
         viewBinding = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
@@ -62,6 +74,8 @@ android {
 
 
 }
+
+
 
 
 

@@ -18,6 +18,7 @@ import com.example.riotapi.View.Fragment.FightRecordFragment
 import com.example.riotapi.R
 import com.example.riotapi.ViewModel.NickNameViewModel
 import com.example.riotapi.databinding.ActivityNickNameBinding
+import com.google.android.material.internal.StaticLayoutBuilderConfigurer
 import com.google.gson.Gson
 
 class NickNameActivity : AppCompatActivity() {
