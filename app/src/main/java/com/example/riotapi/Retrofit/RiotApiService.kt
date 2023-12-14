@@ -17,8 +17,8 @@ interface RiotApiService {
     @GET("lol/summoner/v4/summoners/by-name/{summoner_name}?api_key=$riot_api_key")
     fun getUserData(@Path(value = "summoner_name", encoded = true) summonerName : String) : retrofit2.Call<UserDto>
 
-    @GET("lol/champion-mastery/v4/champion-masteries/by-summoner/{summonerId}?api_key=$riot_api_key")
-    fun getChampionSkill(@Path(value = "summonerId", encoded = true) summonerId : String) : retrofit2.Call<List<ChampSkillInfo>>
+    @GET("lol/champion-mastery/v4/champion-masteries/by-puuid/{encryptedPUUID}?api_key=$riot_api_key")
+    fun getChampionSkill(@Path(value = "encryptedPUUID", encoded = true) puuId: String) : retrofit2.Call<List<ChampSkillInfo>>
 
     @Headers(
         "X-Riot-Token: $riot_api_key"

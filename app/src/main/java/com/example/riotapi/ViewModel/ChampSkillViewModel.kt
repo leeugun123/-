@@ -23,7 +23,7 @@ class ChampSkillViewModel : ViewModel() {
 
     fun fetchSkillInfo(){
 
-        kr_RetrofitApi.getChampionSkill(UserInfo.id).enqueue(object : retrofit2.Callback<List<ChampSkillInfo>> {
+        kr_RetrofitApi.getChampionSkill(UserInfo.puuId).enqueue(object : retrofit2.Callback<List<ChampSkillInfo>> {
 
             override fun onResponse(call: Call<List<ChampSkillInfo>>, response : Response<List<ChampSkillInfo>>) {
 
