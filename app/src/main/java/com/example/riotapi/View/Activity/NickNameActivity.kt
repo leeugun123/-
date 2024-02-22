@@ -70,11 +70,13 @@ class NickNameActivity : AppCompatActivity() {
             true
         }
 
-        nickNameViewModel.summonerInfo.observe(this) {
-            syncUserInfo(it)
+        nickNameViewModel.summonerInfo.observe(this) {userDto ->
+
+            syncUserInfo(userDto)
 
             // Remove existing fragments
             if (fa.isAdded || fb.isAdded) {
+
                 fragmentManager.beginTransaction().remove(fa).commit()
                 fragmentManager.beginTransaction().remove(fb).commit()
 
@@ -134,7 +136,7 @@ class NickNameActivity : AppCompatActivity() {
     }
 
     private fun spellParsing() {
-        val jsonString = assets.open("SpellDataSet.json").reader().readText()
+        val jsonString = assets.open(SPELL_DATA_SET_JSON_FORMAT).reader().readText()
         val spellMap = Gson().fromJson(jsonString, SpellMap::class.java)
 
         spellMap.data.map { (spellId, spellData) ->
@@ -144,7 +146,7 @@ class NickNameActivity : AppCompatActivity() {
 
     private fun championParsing() {
 
-        val jsonString = assets.open("champDataSet.json").reader().readText()
+        val jsonString = assets.open(CHAMP_DATA_SET_JSON_FORMAT).reader().readText()
         val championMap = Gson().fromJson(jsonString, ChampionMap::class.java)
 
         championMap.data.map { (championId, championData) ->
@@ -159,7 +161,10 @@ class NickNameActivity : AppCompatActivity() {
     }//메모리 누수 문제..
 
 
-
+    companion object{
+        private const val SPELL_DATA_SET_JSON_FORMAT = "SpellDataSet.json"
+        private const val CHAMP_DATA_SET_JSON_FORMAT = "champDataSet.json"
+    }
 
 
 }
