@@ -23,22 +23,23 @@ import com.google.gson.Gson
 
 class NickNameActivity : AppCompatActivity() {
 
-    private lateinit var mBinding: ActivityNickNameBinding
-    private lateinit var nickNameViewModel: NickNameViewModel
-    private lateinit var fa: ChampExFragment
-    private lateinit var fb: FightRecordFragment
-    private lateinit var fragmentManager: FragmentManager
+    private lateinit var fa : ChampExFragment
+    private lateinit var fb : FightRecordFragment
+
+    private val mBinding by lazy { ActivityNickNameBinding.inflate(layoutInflater) }
+    private val nickNameViewModel by lazy { ViewModelProvider(this)[NickNameViewModel::class.java]}
+    private val fragmentManager by lazy { supportFragmentManager }
 
     private var selected = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBinding = ActivityNickNameBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
 
         activityInit()
 
         mBinding.inputBut.setOnClickListener {
+
             val nickName = mBinding.nicknameEditText.text.toString()
 
             if (nickName.isNotBlank()) {
@@ -46,6 +47,8 @@ class NickNameActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "닉네임이 입력되지 않았습니다.", Toast.LENGTH_SHORT).show()
             }
+
+
         }
 
         mBinding.navView.setOnNavigationItemSelectedListener { menuItem ->
@@ -122,8 +125,6 @@ class NickNameActivity : AppCompatActivity() {
 
     private fun activityInit() {
         jsonParsing()
-        nickNameViewModel = ViewModelProvider(this)[NickNameViewModel::class.java]
-        fragmentManager = supportFragmentManager
         createFragment()
     }
 
@@ -136,18 +137,20 @@ class NickNameActivity : AppCompatActivity() {
         val jsonString = assets.open("SpellDataSet.json").reader().readText()
         val spellMap = Gson().fromJson(jsonString, SpellMap::class.java)
 
-        spellMap.data?.map { (spellId, spellData) ->
+        spellMap.data.map { (spellId, spellData) ->
             SpellHashMap.spellHashInfo[spellData.key] = spellId
         }
     }
 
     private fun championParsing() {
+
         val jsonString = assets.open("champDataSet.json").reader().readText()
         val championMap = Gson().fromJson(jsonString, ChampionMap::class.java)
 
-        championMap.data?.map { (championId, championData) ->
+        championMap.data.map { (championId, championData) ->
             ChampHashMap.champHashInfo[championData.key] = championId
         }
+
     }
 
     private fun createFragment(){

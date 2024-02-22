@@ -5,10 +5,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitBuilder {
 
-    fun retrofitBuilder(uri : String): RiotApiService = Retrofit.Builder()
-        .baseUrl(uri)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build().create(RiotApiService::class.java)
+    fun retrofitBuilder(uri : String) = Retrofit.Builder()
+                                                .baseUrl(uri)
+                                                .addConverterFactory(GsonConverterFactory.create())
+                                                .build().create(RiotApiService::class.java)
 
 
 }

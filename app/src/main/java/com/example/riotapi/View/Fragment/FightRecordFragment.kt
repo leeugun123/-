@@ -17,22 +17,24 @@ import com.example.riotapi.databinding.FragmentFightRecordBinding
 class FightRecordFragment : Fragment() {
 
     private lateinit var mBinding : FragmentFightRecordBinding
-    private lateinit var matchViewModel : MatchViewModel
+    private val matchViewModel by lazy { ViewModelProvider(requireActivity())[MatchViewModel::class.java] }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         mBinding = FragmentFightRecordBinding.inflate(inflater,container,false)
+        return mBinding.root
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         mBinding.matchRecordRecycler.layoutManager = LinearLayoutManager(requireContext())
-
-        Log.e("TAG","대전기록 데이터 가져옴")
-
-        matchViewModel = ViewModelProvider(requireActivity())[MatchViewModel::class.java]
 
         matchViewModel.fetchMatchIds()
 
@@ -40,7 +42,6 @@ class FightRecordFragment : Fragment() {
             mBinding.matchRecordRecycler.adapter = MatchInfoAdapter(matchListInfo)
         }
 
-        return mBinding.root
 
     }
 

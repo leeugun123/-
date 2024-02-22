@@ -1,36 +1,39 @@
 package com.example.riotapi.View.Activity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import com.example.riotapi.databinding.ActivitySplashBinding
 
+@SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 
-    private lateinit var mBinding : ActivitySplashBinding
-    private lateinit var nextIntent : Intent
+    private val mBinding by lazy { ActivitySplashBinding.inflate(layoutInflater) }
+    private val nextIntent by lazy {Intent(this, NickNameActivity::class.java)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mBinding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
-
-        nextIntent = Intent(this, NickNameActivity::class.java)
-
-        moveNextActivity()
+        waitSplashTime()
 
     }
 
+    private fun waitSplashTime(){
 
-    private fun moveNextActivity(){
-
-        Handler().postDelayed({
-            startActivity(nextIntent)
-            finish()
+        Handler(Looper.getMainLooper()).postDelayed({
+            moveToNickNameActivity()
         }, SPLASH_TIME_OUT)
 
     }
+
+    private fun moveToNickNameActivity() {
+        startActivity(nextIntent)
+        finish()
+    }
+
 
     companion object {
         private const val SPLASH_TIME_OUT: Long = 1500 // 1.5초

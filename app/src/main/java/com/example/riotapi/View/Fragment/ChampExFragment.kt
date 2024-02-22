@@ -17,21 +17,22 @@ import com.example.riotapi.databinding.FragmentChampExBinding
 class ChampExFragment : Fragment() {
 
     private lateinit var mBinding : FragmentChampExBinding
-    private lateinit var champSkillViewModel : ChampSkillViewModel
+    private val champSkillViewModel by lazy {ViewModelProvider(requireActivity())[ChampSkillViewModel::class.java]}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         mBinding = FragmentChampExBinding.inflate(inflater,container,false)
+        return mBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         mBinding.champSkillRecycler.layoutManager = LinearLayoutManager(requireContext())
-
-        Log.e("TAG","챔프 숙련도 데이터 가져옴")
-
-        champSkillViewModel = ViewModelProvider(requireActivity())[ChampSkillViewModel::class.java]
 
         champSkillViewModel.fetchSkillInfo()
 
@@ -39,7 +40,6 @@ class ChampExFragment : Fragment() {
             mBinding.champSkillRecycler.adapter = ChampSkillAdapter(skillInfo)
         }
 
-        return mBinding.root
 
 
     }

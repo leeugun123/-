@@ -4,10 +4,7 @@ import java.io.FileInputStream
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-
 }
-
-
 
 kotlin {
     jvmToolchain(17)
@@ -82,10 +79,18 @@ android {
 
 dependencies {
 
+    //코루틴 비동기 작업
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.1")
+
+    // 레트로핏 통신 관련 라이브러리
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("androidx.room:room-runtime:2.4.3")
-    implementation ("androidx.room:room-compiler:2.6.0")
+
+    // RoomDB 로컬 DB 라이브러리
+    implementation ("androidx.room:room-runtime:2.6.1")
+    implementation ("androidx.room:room-compiler:2.6.1")
+
+    //Glide image 부착 라이브러리
     implementation ("com.github.bumptech.glide:glide:4.16.0")
 
     implementation("androidx.core:core-ktx:1.9.0")
