@@ -1,11 +1,8 @@
 package com.example.riotapi.Repository
 
 import android.app.Application
-import android.util.Log
 import com.example.riotapi.Data.RetrofitData.UserDto
 import com.example.riotapi.Retrofit.RetrofitApi_Instance
-import retrofit2.Call
-import retrofit2.Response
 
 class NickNameRepository(application: Application) {
 

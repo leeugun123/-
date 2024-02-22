@@ -5,16 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.riotapi.Data.JsonData.Champ.ChampHashMap
-import com.example.riotapi.Data.JsonData.Spell.SpellHashMap
 import com.example.riotapi.Data.JsonData.Spell.SpellHashMap.spellHashInfo
-import com.example.riotapi.Data.JsonData.Spell.SpellMap
 import com.example.riotapi.Data.RetrofitData.MatchData.MatchDto
-import com.example.riotapi.Data.UserInfo
+import com.example.riotapi.Model.UserInfo
 import com.example.riotapi.R
 import com.example.riotapi.databinding.MatchInfoListBinding
-import java.math.BigDecimal
-import java.math.RoundingMode
 
 class MatchInfoAdapter(private val matchInfoList : List<MatchDto>) : RecyclerView.Adapter<MatchInfoAdapter.ViewHolder>() {
 

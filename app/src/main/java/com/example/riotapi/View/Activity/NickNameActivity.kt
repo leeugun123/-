@@ -2,23 +2,20 @@ package com.example.riotapi.View.Activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.example.riotapi.Data.JsonData.Champ.ChampHashMap
 import com.example.riotapi.Data.JsonData.Champ.ChampionMap
 import com.example.riotapi.Data.JsonData.Spell.SpellHashMap
 import com.example.riotapi.Data.JsonData.Spell.SpellMap
 import com.example.riotapi.Data.RetrofitData.UserDto
-import com.example.riotapi.Data.UserInfo
+import com.example.riotapi.Model.UserInfo
 import com.example.riotapi.View.Fragment.ChampExFragment
 import com.example.riotapi.View.Fragment.FightRecordFragment
 import com.example.riotapi.R
 import com.example.riotapi.ViewModel.NickNameViewModel
 import com.example.riotapi.databinding.ActivityNickNameBinding
-import com.google.android.material.internal.StaticLayoutBuilderConfigurer
 import com.google.gson.Gson
 
 class NickNameActivity : AppCompatActivity() {

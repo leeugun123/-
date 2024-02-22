@@ -2,7 +2,7 @@ package com.example.riotapi.Repository
 
 import android.app.Application
 import com.example.riotapi.Data.RetrofitData.ChampSkillInfo
-import com.example.riotapi.Data.UserInfo
+import com.example.riotapi.Model.UserInfo
 import com.example.riotapi.Retrofit.RetrofitApi_Instance
 
 class ChampSkillRepository(application : Application) {

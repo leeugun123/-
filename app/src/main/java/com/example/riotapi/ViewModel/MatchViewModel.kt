@@ -1,30 +1,15 @@
 package com.example.riotapi.ViewModel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.riotapi.Data.RetrofitData.MatchData.GameInfo
 import com.example.riotapi.Data.RetrofitData.MatchData.MatchDto
-import com.example.riotapi.Data.RetrofitData.MatchData.Participant
-import com.example.riotapi.Data.UserInfo
 import com.example.riotapi.Repository.MatchRepository
-import com.example.riotapi.Retrofit.RetrofitApi_Instance.asia_RetrofitApi
-import com.example.riotapi.Retrofit.RiotApiService
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 
 class MatchViewModel(application : Application) : AndroidViewModel(application) {
 

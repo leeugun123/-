@@ -1,13 +1,9 @@
 package com.example.riotapi.Repository
 
 import android.app.Application
-import android.util.Log
 import com.example.riotapi.Data.RetrofitData.MatchData.MatchDto
-import com.example.riotapi.Data.UserInfo
+import com.example.riotapi.Model.UserInfo
 import com.example.riotapi.Retrofit.RetrofitApi_Instance
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.io.IOException
 
 class MatchRepository(application : Application) {
 
