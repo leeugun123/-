@@ -112,6 +112,11 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+
+
+    implementation ("androidx.activity:activity-ktx:1.2.0")
+    implementation ("androidx.fragment:fragment-ktx:1.3.0")
+
     configurations {
         implementation.get().exclude(mapOf("group" to "org.jetbrains", "module" to "annotations"))
     }

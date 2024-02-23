@@ -3,6 +3,7 @@ package com.example.riotapi.View.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.riotapi.Data.JsonData.Champ.ChampHashMap
@@ -24,7 +25,7 @@ class NickNameActivity : AppCompatActivity() {
     private lateinit var fb : FightRecordFragment
 
     private val mBinding by lazy { ActivityNickNameBinding.inflate(layoutInflater) }
-    private val nickNameViewModel by lazy { ViewModelProvider(this)[NickNameViewModel::class.java]}
+    private val nickNameViewModel : NickNameViewModel by viewModels()
     private val fragmentManager by lazy { supportFragmentManager }
 
     private var selected = 0

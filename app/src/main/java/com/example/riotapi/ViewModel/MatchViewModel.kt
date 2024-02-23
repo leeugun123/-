@@ -13,11 +13,8 @@ import kotlinx.coroutines.withContext
 
 class MatchViewModel(application : Application) : AndroidViewModel(application) {
 
-    private val _summonerMatchInfoList = MutableLiveData<List<MatchDto>>()
-    val summonerMatchInfoList : LiveData<List<MatchDto>> get() = _summonerMatchInfoList
-
-    private val _summonerMatchInfoDetail = MutableLiveData<MatchDto>()
-    val summonerMatchInfoDetail : LiveData<MatchDto> get() = _summonerMatchInfoDetail
+    private val _summonerMatchDtoList = MutableLiveData<List<MatchDto>>()
+    val summonerMatchDtoList : LiveData<List<MatchDto>> get() = _summonerMatchDtoList
 
     private var matchRepository : MatchRepository
 
@@ -32,28 +29,14 @@ class MatchViewModel(application : Application) : AndroidViewModel(application) 
             val matchIdsResponse = matchRepository.fetchMatchIds()
 
             withContext(Dispatchers.Main){
-                _summonerMatchInfoList.value = matchIdsResponse
+                _summonerMatchDtoList.value = matchIdsResponse
             }
 
         }
 
     }
 
-    fun fetchMatchInfo(matchId : String){
 
-        viewModelScope.launch(Dispatchers.IO) {
-
-            val matchInfoDetailResponse = matchRepository.fetchMatchInfo(matchId)
-
-            withContext(Dispatchers.Main){
-                _summonerMatchInfoDetail.value = matchInfoDetailResponse
-            }
-
-        }
-
-
-
-    }
 
 
 

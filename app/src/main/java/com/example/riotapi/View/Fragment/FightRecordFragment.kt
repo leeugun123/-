@@ -38,8 +38,8 @@ class FightRecordFragment : Fragment() {
 
         matchViewModel.fetchMatchIds()
 
-        matchViewModel.summonerMatchInfoList.observe(requireActivity()){ matchListInfo ->
-            mBinding.matchRecordRecycler.adapter = MatchInfoAdapter(matchListInfo)
+        matchViewModel.summonerMatchDtoList.observe(requireActivity()){ matchInfoDtoList ->
+            mBinding.matchRecordRecycler.adapter = MatchInfoAdapter(matchInfoDtoList)
         }
 
 
