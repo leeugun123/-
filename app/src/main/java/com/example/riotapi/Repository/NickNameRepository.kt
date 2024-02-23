@@ -4,7 +4,7 @@ import android.app.Application
 import com.example.riotapi.Data.RetrofitData.UserDto
 import com.example.riotapi.Retrofit.RetrofitApi_Instance
 
-class NickNameRepository(application: Application) {
+class NickNameRepository() {
 
     private lateinit var userDto : UserDto
     suspend fun fetchUserInfo(userNickName : String) : UserDto {

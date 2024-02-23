@@ -5,7 +5,7 @@ import com.example.riotapi.Data.RetrofitData.ChampSkillInfo
 import com.example.riotapi.Model.UserInfo
 import com.example.riotapi.Retrofit.RetrofitApi_Instance
 
-class ChampSkillRepository(application : Application) {
+class ChampSkillRepository() {
 
     private var champSkillInfoList : List<ChampSkillInfo> = emptyList()
 

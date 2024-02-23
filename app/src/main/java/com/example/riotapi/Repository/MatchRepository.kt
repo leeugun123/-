@@ -5,7 +5,7 @@ import com.example.riotapi.Data.RetrofitData.MatchData.MatchDto
 import com.example.riotapi.Model.UserInfo
 import com.example.riotapi.Retrofit.RetrofitApi_Instance
 
-class MatchRepository(application : Application) {
+class MatchRepository() {
 
     private var matchDtoList : MutableList<MatchDto> = mutableListOf()
     private lateinit var matchDto : MatchDto

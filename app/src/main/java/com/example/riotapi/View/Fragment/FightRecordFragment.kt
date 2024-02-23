@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.riotapi.Adapter.MatchInfoAdapter
@@ -17,7 +18,7 @@ import com.example.riotapi.databinding.FragmentFightRecordBinding
 class FightRecordFragment : Fragment() {
 
     private lateinit var mBinding : FragmentFightRecordBinding
-    private val matchViewModel by lazy { ViewModelProvider(requireActivity())[MatchViewModel::class.java] }
+    private val matchViewModel : MatchViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

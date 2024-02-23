@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.riotapi.Data.RetrofitData.UserDto
 import com.example.riotapi.Repository.NickNameRepository
@@ -11,16 +12,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class NickNameViewModel(application : Application) : AndroidViewModel(application) {
+class NickNameViewModel() : ViewModel() {
 
     private val _summonerInfo = MutableLiveData<UserDto>()
     val summonerInfo : LiveData<UserDto> get() = _summonerInfo
 
-    private var nickNameRepository : NickNameRepository
-
-    init {
-        nickNameRepository = NickNameRepository(application)
-    }
+    private var nickNameRepository = NickNameRepository()
 
     fun fetchUserInfo(userNickName : String){
 

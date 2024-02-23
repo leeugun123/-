@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.riotapi.Adapter.ChampSkillAdapter
@@ -17,7 +18,7 @@ import com.example.riotapi.databinding.FragmentChampExBinding
 class ChampExFragment : Fragment() {
 
     private lateinit var mBinding : FragmentChampExBinding
-    private val champSkillViewModel by lazy {ViewModelProvider(requireActivity())[ChampSkillViewModel::class.java]}
+    private val champSkillViewModel : ChampSkillViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
