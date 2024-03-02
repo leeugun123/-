@@ -35,44 +35,12 @@ class NickNameActivity : AppCompatActivity() {
         setContentView(mBinding.root)
 
         activityInit()
-
-        mBinding.inputBut.setOnClickListener {
-
-            val nickName = mBinding.nicknameEditText.text.toString()
-
-            if (nickName.isNotBlank()) {
-                nickNameViewModel.fetchUserInfo(nickName)
-            } else {
-                Toast.makeText(this, "닉네임이 입력되지 않았습니다.", Toast.LENGTH_SHORT).show()
-            }
-
-
-        }
-
-        mBinding.navView.setOnNavigationItemSelectedListener { menuItem ->
-            selected = when (menuItem.itemId) {
-                R.id.navigation_championExperience -> {
-                    showFragment(fa)
-                    hideFragment(fb)
-                    0
-                }
-
-                R.id.navigation_fightRecord -> {
-                    showFragment(fb)
-                    hideFragment(fa)
-                    1
-                }
-
-                else -> throw IllegalArgumentException("Invalid ItemId")
-            }
-            true
-        }
+        bindingInit()
 
         nickNameViewModel.summonerInfo.observe(this) {userDto ->
 
             syncUserInfo(userDto)
 
-            // Remove existing fragments
             if (fa.isAdded || fb.isAdded) {
 
                 fragmentManager.beginTransaction().remove(fa).commit()
@@ -87,6 +55,60 @@ class NickNameActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun bindingInit() {
+
+        mBinding.apply {
+
+            inputBut.setOnClickListener {
+                checkNickNameValid()
+            }
+
+            navView.setOnNavigationItemSelectedListener { menuItem ->
+
+                selected = when (menuItem.itemId) {
+
+                    R.id.navigation_championExperience -> {
+                        showFragment(fa)
+                        hideFragment(fb)
+                        0
+                    }
+
+                    R.id.navigation_fightRecord -> {
+                        showFragment(fb)
+                        hideFragment(fa)
+                        1
+                    }
+
+                    else -> throw IllegalArgumentException("Invalid ItemId")
+                }
+                true
+            }
+
+        }
+
+
+    }
+
+    private fun checkNickNameValid() {
+
+        val nickName = mBinding.nicknameEditText.text.toString()
+
+        if (nickName.isNotBlank())
+            fetchUserInfo(nickName)
+        else
+            showToast(NOT_INPUT_NICKNAME_MESSAGE)
+
+    }
+
+
+    private fun showToast(message : String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun fetchUserInfo(nickName : String) {
+        nickNameViewModel.fetchUserInfo(nickName)
     }
 
     private fun fragmentCommit(){
@@ -162,6 +184,8 @@ class NickNameActivity : AppCompatActivity() {
     companion object{
         private const val SPELL_DATA_SET_JSON_FORMAT = "SpellDataSet.json"
         private const val CHAMP_DATA_SET_JSON_FORMAT = "champDataSet.json"
+
+        private const val NOT_INPUT_NICKNAME_MESSAGE = "닉네임이 입력되지 않았습니다."
     }
 
 
