@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -28,7 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.riotapi.R
 
 @SuppressLint("CustomSplashScreen")
-class SplashActivity : AppCompatActivity() {
+class SplashActivity : ComponentActivity() {
     
     private val nextIntent by lazy {Intent(this, NickNameActivity::class.java)}
 

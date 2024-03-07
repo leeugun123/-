@@ -1,15 +1,17 @@
 package com.example.riotapi.View.Activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
+
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -25,6 +27,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -37,23 +40,13 @@ import com.example.riotapi.Data.JsonData.Spell.SpellHashMap
 import com.example.riotapi.Data.JsonData.Spell.SpellMap
 import com.example.riotapi.Data.RetrofitData.UserDto
 import com.example.riotapi.Model.UserInfo
-import com.example.riotapi.View.Fragment.ChampExFragment
-import com.example.riotapi.View.Fragment.FightRecordFragment
-import com.example.riotapi.R
 import com.example.riotapi.ViewModel.NickNameViewModel
-import com.example.riotapi.databinding.ActivityNickNameBinding
+
 import com.google.gson.Gson
 
-class NickNameActivity : AppCompatActivity() {
+class NickNameActivity : ComponentActivity() {
 
-    private lateinit var fa : ChampExFragment
-    private lateinit var fb : FightRecordFragment
-
-    private val mBinding by lazy { ActivityNickNameBinding.inflate(layoutInflater) }
     private val nickNameViewModel : NickNameViewModel by viewModels()
-    private val fragmentManager by lazy { supportFragmentManager }
-
-    private var selected = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,63 +56,19 @@ class NickNameActivity : AppCompatActivity() {
         }
 
         jsonParsing()
+        summonerInfoObserve()
 
+    }
 
-
-
-        activityInit()
-        bindingInit()
+    private fun summonerInfoObserve() {
 
         nickNameViewModel.summonerInfo.observe(this) {userDto ->
-
             syncUserInfo(userDto)
-
-            if (fa.isAdded || fb.isAdded) {
-
-                fragmentManager.beginTransaction().remove(fa).commit()
-                fragmentManager.beginTransaction().remove(fb).commit()
-
-                createFragment()
-            }
-
-            fragmentCommit()
-            fragmentShowUpdate()
-
+            //moveToNextActivity()
         }
-
 
     }
 
-    private fun bindingInit() {
-
-        mBinding.apply {
-
-
-            navView.setOnNavigationItemSelectedListener { menuItem ->
-
-                selected = when (menuItem.itemId) {
-
-                    R.id.navigation_championExperience -> {
-                        showFragment(fa)
-                        hideFragment(fb)
-                        0
-                    }
-
-                    R.id.navigation_fightRecord -> {
-                        showFragment(fb)
-                        hideFragment(fa)
-                        1
-                    }
-
-                    else -> throw IllegalArgumentException("Invalid ItemId")
-                }
-                true
-            }
-
-        }
-
-
-    }
 
     private fun checkNickNameValid(nickName : String , tagLine : String) {
 
@@ -138,32 +87,7 @@ class NickNameActivity : AppCompatActivity() {
     private fun fetchUserInfo(nickName : String) {
         nickNameViewModel.fetchUserInfo(nickName)
     }
-
-    private fun fragmentCommit(){
-        fragmentManager.beginTransaction().add(R.id.fragment_container, fa).commit()
-        fragmentManager.beginTransaction().add(R.id.fragment_container, fb).commit()
-    }
-
-    private fun fragmentShowUpdate() {
-
-        if(selected == 0){
-            showFragment(fa)
-            hideFragment(fb)
-        }else{
-            showFragment(fb)
-            hideFragment(fa)
-        }
-
-    }
-
-    private fun showFragment(fragment: Fragment) {
-        fragmentManager.beginTransaction().show(fragment).commit()
-    }
-
-    private fun hideFragment(fragment: Fragment) {
-        fragmentManager.beginTransaction().hide(fragment).commit()
-    }
-
+    
     private fun syncUserInfo(it: UserDto?) {
         val user = it!!
         UserInfo.name = user.name
@@ -175,21 +99,10 @@ class NickNameActivity : AppCompatActivity() {
         UserInfo.accountId = user.accountId
     }
 
-    private fun activityInit() {
-        createFragment()
-    }
-
     private fun jsonParsing() {
         championParsing()
         spellParsing()
     }
-
-
-    private fun createFragment(){
-        fa = ChampExFragment()
-        fb = FightRecordFragment()
-    }//메모리 누수 문제..
-
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -200,11 +113,13 @@ class NickNameActivity : AppCompatActivity() {
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
                 .padding(16.dp)
+
+
         ) {
             var nickName by remember { mutableStateOf("") }
             var tagLine by remember { mutableStateOf("") }
-            var isButtonClicked by remember { mutableStateOf(false) }
 
+            var isButtonClicked by remember { mutableStateOf(false) }
 
             OutlinedTextField(
                 value = nickName,
@@ -224,7 +139,6 @@ class NickNameActivity : AppCompatActivity() {
                 )
             )
             //소환사 이름 입력 EditText
-
 
             OutlinedTextField(
                 value = tagLine,
@@ -246,25 +160,21 @@ class NickNameActivity : AppCompatActivity() {
 
             Button(
                 onClick = {
-                    checkNickNameValid(nickName , tagLine)
+                    checkNickNameValid(nickName, tagLine)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp)
-
             ) {
                 Icon(
                     imageVector = Icons.Default.Send,
                     contentDescription = "전송"
                 )
-                
             }
-
-
-
-
         }
     }
+
+
 
     @Preview(showBackground = true)
     @Composable
