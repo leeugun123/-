@@ -3,9 +3,34 @@ package com.example.riotapi.View.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Send
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.riotapi.Data.JsonData.Champ.ChampHashMap
 import com.example.riotapi.Data.JsonData.Champ.ChampionMap
 import com.example.riotapi.Data.JsonData.Spell.SpellHashMap
@@ -32,7 +57,15 @@ class NickNameActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(mBinding.root)
+
+        setContent {
+            ComposeNickNameScreen()
+        }
+
+        jsonParsing()
+
+
+
 
         activityInit()
         bindingInit()
@@ -61,9 +94,6 @@ class NickNameActivity : AppCompatActivity() {
 
         mBinding.apply {
 
-            inputBut.setOnClickListener {
-                checkNickNameValid()
-            }
 
             navView.setOnNavigationItemSelectedListener { menuItem ->
 
@@ -91,14 +121,12 @@ class NickNameActivity : AppCompatActivity() {
 
     }
 
-    private fun checkNickNameValid() {
+    private fun checkNickNameValid(nickName : String , tagLine : String) {
 
-        val nickName = mBinding.nicknameEditText.text.toString()
-
-        if (nickName.isNotBlank())
+        if (nickName.isNotBlank() && tagLine.isNotBlank())
             fetchUserInfo(nickName)
         else
-            showToast(NOT_INPUT_NICKNAME_MESSAGE)
+            showToast(NOT_INPUT_NICKNAME_AND_TAGLINE_MESSAGE)
 
     }
 
@@ -117,6 +145,7 @@ class NickNameActivity : AppCompatActivity() {
     }
 
     private fun fragmentShowUpdate() {
+
         if(selected == 0){
             showFragment(fa)
             hideFragment(fb)
@@ -124,6 +153,7 @@ class NickNameActivity : AppCompatActivity() {
             showFragment(fb)
             hideFragment(fa)
         }
+
     }
 
     private fun showFragment(fragment: Fragment) {
@@ -146,7 +176,6 @@ class NickNameActivity : AppCompatActivity() {
     }
 
     private fun activityInit() {
-        jsonParsing()
         createFragment()
     }
 
@@ -155,7 +184,98 @@ class NickNameActivity : AppCompatActivity() {
         spellParsing()
     }
 
+
+    private fun createFragment(){
+        fa = ChampExFragment()
+        fb = FightRecordFragment()
+    }//메모리 누수 문제..
+
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun ComposeNickNameScreen() {
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+                .padding(16.dp)
+        ) {
+            var nickName by remember { mutableStateOf("") }
+            var tagLine by remember { mutableStateOf("") }
+            var isButtonClicked by remember { mutableStateOf(false) }
+
+
+            OutlinedTextField(
+                value = nickName,
+                onValueChange = { nickName = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 8.dp),
+                label = { Text("소환사 이름 입력") },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        // Handle done action
+                    }
+                )
+            )
+            //소환사 이름 입력 EditText
+
+
+            OutlinedTextField(
+                value = tagLine,
+                onValueChange = { tagLine = it },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 8.dp),
+                label = { Text("# 태그 라인 입력") },
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Done
+                ),
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        // Handle done action
+                    }
+                )
+            )
+
+            Button(
+                onClick = {
+                    checkNickNameValid(nickName , tagLine)
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Send,
+                    contentDescription = "전송"
+                )
+                
+            }
+
+
+
+
+        }
+    }
+
+    @Preview(showBackground = true)
+    @Composable
+    fun ComposeNickNameScreenPreview() {
+        ComposeNickNameScreen()
+    }
+
+
     private fun spellParsing() {
+
+
         val jsonString = assets.open(SPELL_DATA_SET_JSON_FORMAT).reader().readText()
         val spellMap = Gson().fromJson(jsonString, SpellMap::class.java)
 
@@ -175,17 +295,16 @@ class NickNameActivity : AppCompatActivity() {
 
     }
 
-    private fun createFragment(){
-        fa = ChampExFragment()
-        fb = FightRecordFragment()
-    }//메모리 누수 문제..
 
 
     companion object{
+
         private const val SPELL_DATA_SET_JSON_FORMAT = "SpellDataSet.json"
         private const val CHAMP_DATA_SET_JSON_FORMAT = "champDataSet.json"
 
-        private const val NOT_INPUT_NICKNAME_MESSAGE = "닉네임이 입력되지 않았습니다."
+        private const val NOT_INPUT_NICKNAME_AND_TAGLINE_MESSAGE = "소환사 이름과 태그 라인 모두 입력 되지 않았습니다."
+
+
     }
 
 

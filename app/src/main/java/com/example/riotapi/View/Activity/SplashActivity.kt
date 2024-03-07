@@ -26,7 +26,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.riotapi.R
-import com.example.riotapi.databinding.ActivitySplashBinding
 
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
@@ -40,7 +39,6 @@ class SplashActivity : AppCompatActivity() {
         }
 
         showSplashWait()
-
 
     }
 
@@ -83,7 +81,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     companion object{
-        private const val SPLASH_DURATION_TIME  : Long = 1500 //1.5초
+        private const val SPLASH_DURATION_TIME : Long = 1500 //1.5초
     }
 
 }
