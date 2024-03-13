@@ -18,7 +18,7 @@ import com.example.riotapi.databinding.FragmentChampExBinding
 class ChampExFragment : Fragment() {
 
     private lateinit var mBinding : FragmentChampExBinding
-    private val champSkillViewModel : ChampSkillViewModel by viewModels()
+    private val champSkillViewModel by viewModels<ChampSkillViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

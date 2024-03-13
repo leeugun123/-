@@ -1,17 +1,18 @@
 package com.example.riotapi.View.Activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -22,7 +23,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,6 +42,7 @@ import com.example.riotapi.Data.JsonData.Champ.ChampionMap
 import com.example.riotapi.Data.JsonData.Spell.SpellHashMap
 import com.example.riotapi.Data.JsonData.Spell.SpellMap
 import com.example.riotapi.Data.RetrofitData.UserDto
+import com.example.riotapi.MainActivity
 import com.example.riotapi.Model.UserInfo
 import com.example.riotapi.ViewModel.NickNameViewModel
 
@@ -46,7 +50,7 @@ import com.google.gson.Gson
 
 class NickNameActivity : ComponentActivity() {
 
-    private val nickNameViewModel : NickNameViewModel by viewModels()
+    private val nickNameViewModel by viewModels<NickNameViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,9 +68,13 @@ class NickNameActivity : ComponentActivity() {
 
         nickNameViewModel.summonerInfo.observe(this) {userDto ->
             syncUserInfo(userDto)
-            //moveToNextActivity()
+            moveToNextActivity()
         }
 
+    }
+
+    private fun moveToNextActivity() {
+        startActivity(Intent(this , MainActivity::class.java))
     }
 
 
@@ -108,58 +116,44 @@ class NickNameActivity : ComponentActivity() {
     @Composable
     fun ComposeNickNameScreen() {
 
+        var (nickName : String, setNickName: (String) -> Unit) = remember{
+            mutableStateOf("")
+        }
+
+        var (tagLine : String, setTagLine: (String) -> Unit) = remember{
+            mutableStateOf("")
+        }
+
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
-                .padding(16.dp)
-
-
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            var nickName by remember { mutableStateOf("") }
-            var tagLine by remember { mutableStateOf("") }
 
-            var isButtonClicked by remember { mutableStateOf(false) }
-
-            OutlinedTextField(
+            TextField(
                 value = nickName,
-                onValueChange = { nickName = it },
+                onValueChange = { setNickName },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(end = 8.dp),
                 label = { Text("소환사 이름 입력") },
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        // Handle done action
-                    }
-                )
+
             )
             //소환사 이름 입력 EditText
 
-            OutlinedTextField(
-                value = tagLine,
-                onValueChange = { tagLine = it },
+            TextField(value = tagLine,
+                onValueChange = { setTagLine },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(end = 8.dp),
                 label = { Text("# 태그 라인 입력") },
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        // Handle done action
-                    }
-                )
             )
 
-            Button(
-                onClick = {
+            Button(onClick = {
                     checkNickNameValid(nickName, tagLine)
                 },
                 modifier = Modifier
